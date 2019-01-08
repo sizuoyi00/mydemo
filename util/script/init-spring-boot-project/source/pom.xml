@@ -1,0 +1,64 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xmlns="http://maven.apache.org/POM/4.0.0"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.4.RELEASE</version>
+	</parent>
+
+	<groupId>cn.sy</groupId>
+	<artifactId>project-name</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>project-name</name>
+	<description>project-name</description>
+	<modules>
+		<module>api</module>
+		<module>bmg</module>
+		<module>service</module>
+	</modules>
+
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>cn.sy</groupId>
+				<artifactId>project-name-service</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi</artifactId>
+				<version>3.15</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.4</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>1.2.6</version>
+			</dependency>
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>1.4.7</version>
+            </dependency>
+			<dependency>
+				<groupId>org.mybatis.spring.boot</groupId>
+				<artifactId>mybatis-spring-boot-starter</artifactId>
+				<version>1.2.0</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+</project>

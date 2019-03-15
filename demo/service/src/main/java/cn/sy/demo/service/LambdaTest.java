@@ -13,9 +13,15 @@ public class LambdaTest {
         Collections.sort(list, String::compareTo);
         list.forEach(System.out::println);
 
-        list = list.stream().map(l -> l.toUpperCase())
+        List<String> list1 = list.stream().map(l -> l.toUpperCase())
                 .collect(Collectors.toList());
 
-        list.forEach(System.out::println);
+        List<Integer> list2 = Arrays.asList(2,3,6);
+        final List<String> collect2 = list2.stream().map(l -> l + "haha")
+                .collect(Collectors.toList());
+
+        list1.forEach(System.out::println);
+        collect2.forEach(System.out::println);
+
     }
 }

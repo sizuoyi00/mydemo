@@ -45,6 +45,7 @@
 	<logger name="java.sql.PreparedStatement" level="DEBUG" />
 	<logger name="java.sql.ResultSet" level="DEBUG" />
 	<logger name="org.springframework.jdbc" level="DEBUG" />
+	<logger name="org.springframework.boot" level="INFO" />
 	<logger name="org.springframework.transaction" level="DEBUG" />
 	<logger name="org.springframework.web.servlet.DispatcherServlet"
 		level="INFO" />

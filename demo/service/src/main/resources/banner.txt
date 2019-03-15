@@ -20,4 +20,3 @@ ${Ansi.GREEN}                    '.:::::'                    ':'````..
 ${Ansi.GREEN}
 
 ${AnsiColor.WHITE}             不知满街漂亮妹，哪个归得程序员？
-${AnsiColor.WHITE}           https://www.aeink.com/1006.html

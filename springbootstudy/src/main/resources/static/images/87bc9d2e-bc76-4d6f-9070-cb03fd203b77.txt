@@ -1,0 +1,6 @@
+组件：components 
+道具：props
+模板：template
+创建：created
+看：  watch
+部件：component

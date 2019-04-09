@@ -1,4 +1,4 @@
-package cn.sy.demo.conf.interceptor.res;
+package cn.sy.demo.interceptor.res;
 
 
 import cn.sy.demo.constant.exception.BusinessException;

@@ -1,7 +1,7 @@
-package cn.sy.demo.conf.interceptor.req;
+package cn.sy.demo.interceptor.req;
 
-import cn.sy.demo.conf.interceptor.res.ApiResponse;
-import cn.sy.demo.conf.interceptor.res.SkipResponseWrap;
+import cn.sy.demo.interceptor.res.ApiResponse;
+import cn.sy.demo.interceptor.res.SkipResponseWrap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;

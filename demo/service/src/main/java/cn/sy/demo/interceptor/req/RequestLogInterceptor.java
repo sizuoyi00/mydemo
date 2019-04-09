@@ -1,4 +1,4 @@
-package cn.sy.demo.conf.interceptor.req;
+package cn.sy.demo.interceptor.req;
 
 import cn.sy.demo.conf.context.ThreadContextHolder;
 import cn.sy.demo.utils.IpUtils;

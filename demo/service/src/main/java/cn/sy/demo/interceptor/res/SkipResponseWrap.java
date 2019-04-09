@@ -1,4 +1,4 @@
-package cn.sy.demo.conf.interceptor.res;
+package cn.sy.demo.interceptor.res;
 
 import java.lang.annotation.*;
 

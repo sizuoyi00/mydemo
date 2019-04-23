@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration scan="false" scanPeriod="60 seconds" debug="false">
-	<property name="LOG_PATH" value="D:\aliyun\logs" />
+	<property name="LOG_PATH" value="D://aliyun/xlogs" />
 
 	<springProperty scope="context" name="env" source="spring.profiles.active" defaultValue="default"/>
 	<springProperty scope="context" name="node_id" source="NODE_ID" defaultValue="1"/>

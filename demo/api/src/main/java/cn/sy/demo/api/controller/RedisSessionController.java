@@ -14,23 +14,23 @@ import javax.servlet.http.HttpSession;
 public class RedisSessionController {
 
     @RequestMapping("/createSession")
-    public String createSession(HttpServletRequest request,HttpSession session, String name) throws JSONException {
+    public String createSession(HttpServletRequest request, HttpSession session, String name) throws JSONException {
         session.setAttribute("name", name);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("port",request.getLocalPort());
-        jsonObject.put("sessionid",session.getId());
-        jsonObject.put("name",session.getAttribute("name"));
-        log.info("createSession {}",jsonObject.toString());
+        jsonObject.put("port", request.getLocalPort());
+        jsonObject.put("sessionid", session.getId());
+        jsonObject.put("name", session.getAttribute("name"));
+        log.info("createSession {}", jsonObject.toString());
         return jsonObject.toString();
     }
 
     @RequestMapping("/getSession")
-    public String getSession(HttpServletRequest request,HttpSession session) throws JSONException {
+    public String getSession(HttpServletRequest request, HttpSession session) throws JSONException {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("port",request.getLocalPort());
-        jsonObject.put("sessionid",session.getId());
-        jsonObject.put("name",session.getAttribute("name"));
-        log.info("getsession {}",jsonObject.toString());
+        jsonObject.put("port", request.getLocalPort());
+        jsonObject.put("sessionid", session.getId());
+        jsonObject.put("name", session.getAttribute("name"));
+        log.info("getsession {}", jsonObject.toString());
         return jsonObject.toString();
     }
 

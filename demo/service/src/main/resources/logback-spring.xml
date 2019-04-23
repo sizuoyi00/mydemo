@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration scan="false" scanPeriod="60 seconds" debug="false">
-	<property name="LOG_PATH" value="/aliyun/logs" />
+	<property name="LOG_PATH" value="D:\aliyun\logs" />
 
 	<springProperty scope="context" name="env" source="spring.profiles.active" defaultValue="default"/>
 	<springProperty scope="context" name="node_id" source="NODE_ID" defaultValue="1"/>
 
-	<appender name="file"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${LOG_PATH}/demo.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>${LOG_PATH}/backup/demo/demo_%d.log
@@ -15,14 +21,14 @@
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{40} - %msg%n
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
 			</pattern>
 		</encoder>
 	</appender>
 
-	<property name="email_subject" value="【Platform demo-${node_id} Error】:${env} %logger" />
+	<property name="EMAIL_SUBJECT" value="【Platform demo-${node_id} Error】:${env} %logger" />
 
-	<appender name="errorEmail" class="ch.qos.logback.classic.net.SMTPAppender">
+	<appender name="ERROR_EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
 		<smtpHost>smtp.exmail.qq.com</smtpHost>
 		<smtpPort>25</smtpPort>
 		<username>jftit@jf180.cn</username>
@@ -31,8 +37,8 @@
 		<asynchronousSending>false</asynchronousSending>
 		<to>sizuoyi@jf180.cn</to>
 		<from>jftit@jf180.cn</from>
-		<subject>${email_subject}</subject>
-		<layout class="ch.qos.logback.classic.html.HTMLLayout">
+		<subject>${EMAIL_SUBJECT}</subject>
+		<layout class="ch.qos.logback.classic.PatternLayout">
 			<pattern>%date%level%thread%logger{0}%line%message</pattern>
 		</layout>
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -50,7 +56,6 @@
 	<logger name="org.springframework.web.servlet.DispatcherServlet"
 		level="INFO" />
 		
-		
 	<!-- <logger name="org.hibernate" level="DEBUG" /> -->
 	<logger name="org.hibernate.SQL" level="DEBUG" />
 
@@ -59,11 +64,12 @@
 	<logger name="org" level="WARN" />
 
 	<logger name="cn.sy" level="DEBUG" additivity="true">
-		<appender-ref ref="errorEmail" />
+		<appender-ref ref="ERROR_EMAIL" />
 	</logger>
 
 	<root level="debug">
-		<appender-ref ref="file" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="STDOUT" />
 	</root>
 
 </configuration> 

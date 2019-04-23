@@ -1,7 +1,7 @@
 
 ${Ansi.GREEN}                    .::::.
 ${Ansi.GREEN}                  .::::::::.
-${Ansi.GREEN}                 :::::::::::  ${AnsiColor.MAGENTA}FUCK YOU
+${Ansi.GREEN}                 :::::::::::
 ${Ansi.GREEN}             ..:::::::::::'
 ${Ansi.GREEN}           '::::::::::::'
 ${Ansi.GREEN}             .::::::::::

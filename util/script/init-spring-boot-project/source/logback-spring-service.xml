@@ -48,8 +48,8 @@
 	<logger name="org.springframework.transaction" level="DEBUG" />
 	<logger name="org.springframework.web.servlet.DispatcherServlet"
 		level="INFO" />
-		
-		
+
+
 	<!-- <logger name="org.hibernate" level="DEBUG" /> -->
 	<logger name="org.hibernate.SQL" level="DEBUG" />
 
@@ -65,4 +65,4 @@
 		<appender-ref ref="file" />
 	</root>
 
-</configuration> 
+</configuration>

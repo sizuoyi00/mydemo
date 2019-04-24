@@ -1,4 +1,4 @@
-package cn.sy.demo.conf.aspect.hbbank;
+package cn.sy.demo.aspect.hbbank;
 
 import java.lang.annotation.*;
 

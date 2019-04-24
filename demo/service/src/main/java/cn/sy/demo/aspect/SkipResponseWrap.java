@@ -1,4 +1,4 @@
-package cn.sy.demo.interceptor.res;
+package cn.sy.demo.aspect;
 
 import java.lang.annotation.*;
 

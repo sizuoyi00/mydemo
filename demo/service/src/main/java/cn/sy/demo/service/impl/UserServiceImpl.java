@@ -23,7 +23,8 @@ public class UserServiceImpl implements UserService{
      * @return
      */
     @Override
-    @CachePut(value = {"user"},key ="\"user_\" + #user.id")
+//    @CachePut(value = {"user"},key ="\"user_\" + #user.id")
+    @CachePut(value = "user", key ="#root.methodName+'_'+#user.id")
     public User save(User user) {
         userDao.insertSelective(user);
         return user;

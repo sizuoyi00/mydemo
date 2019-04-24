@@ -25,8 +25,6 @@ public class RateLimitInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        String name = request.getRequestURI();
-        log.info("Reserve Coupon Interceptor... url is {}", name);
         String ip = IpUtils.getIp(request);
 
         String key = "reserveCouponLimit_" + ip;

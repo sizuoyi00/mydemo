@@ -10,14 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
- * javashop 上下文初始化
- * 以及跨域的支持
- * @author kingapex
- * @version v1.0
- * @since v7.0.0
- * 2018年3月23日 上午10:26:41
+ * 上下文初始化
  */
-public class RequestInterceptor extends HandlerInterceptorAdapter {
+public class RequestContextInterceptor extends HandlerInterceptorAdapter {
 
 
 	/**

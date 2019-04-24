@@ -17,7 +17,7 @@ public class UserControllerTest extends BaseControllerTest {
     public void save(){
         User user = new User();
         user.setName("hhehehehehhehe");
-        user.setId(7089800L);
+        user.setId(45452349800L);
         User u= userService.save(user);
         log.info("11111,{}", u.getName());
     }

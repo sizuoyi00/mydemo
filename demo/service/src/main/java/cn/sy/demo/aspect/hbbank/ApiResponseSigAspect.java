@@ -1,4 +1,4 @@
-package cn.sy.demo.conf.aspect.hbbank;
+package cn.sy.demo.aspect.hbbank;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ public class ApiResponseSigAspect {
 //	表示匹配com.sy.demo包及其子包下的所有方法
 //	@Pointcut("execution(* com.sy.demo..*.*(..))")
 //	表示匹配cn.sy.demo.conf.aspect.hbbank.HbBankAddSig的注解
-	@Pointcut("@annotation(cn.sy.demo.conf.aspect.hbbank.HbBankAddSig)")
+	@Pointcut("@annotation(cn.sy.demo.aspect.hbbank.HbBankAddSig)")
 	public void apiRespSig() {
 	}
 

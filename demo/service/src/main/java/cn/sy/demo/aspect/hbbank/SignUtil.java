@@ -1,4 +1,4 @@
-package cn.sy.demo.conf.aspect.hbbank;
+package cn.sy.demo.aspect.hbbank;
 
 import cn.sy.demo.utils.MD5Utils;
 import lombok.extern.slf4j.Slf4j;

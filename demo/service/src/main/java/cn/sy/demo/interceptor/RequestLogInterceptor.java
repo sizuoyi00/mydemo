@@ -1,4 +1,4 @@
-package cn.sy.demo.interceptor.req;
+package cn.sy.demo.interceptor;
 
 import cn.sy.demo.conf.context.ThreadContextHolder;
 import cn.sy.demo.utils.IpUtils;
@@ -31,48 +31,49 @@ public class RequestLogInterceptor extends HandlerInterceptorAdapter {
             if (!StringUtils.isEmpty(ip)) {
                 request.setAttribute("ip", ip);
             }
-            logReqParams(reqId, ip, request, response);
+            logReqParams(reqId, ip, request);
         } catch (Exception e) {
+            log.debug("request log error",e);
         }
         return true;
     }
 
-    private void logReqParams(String reqId, String ip, HttpServletRequest request, HttpServletResponse response) {
+    private void logReqParams(String reqId, String ip, HttpServletRequest request) {
         String uri = request.getRequestURI();
+
+        //header信息
         JSONObject headerJson = new JSONObject();
-        try {
-            Enumeration<String> e = request.getHeaderNames();
-            while (e.hasMoreElements()) {
-                String param = e.nextElement();
-                String val = request.getHeader(param);
-                headerJson.put(param, val);
-            }
-        } catch (Exception e) {
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String param = headerNames.nextElement();
+            String val = request.getHeader(param);
+            headerJson.put(param, val);
         }
 
-        JSONObject paramsJson = new JSONObject();
-        try {
-            Enumeration<String> e = request.getParameterNames();
-            while (e.hasMoreElements()) {
-                String param = e.nextElement();
-                if (EXCLUDE_SIGN_PARAMETER_NAMES.contains(param)) {
-                    continue;
-                }
-                String val = request.getParameter(param);
-                paramsJson.put(param, val);
-            }
-        } catch (Exception e) {
-        }
+        //cookie信息
         Cookie[] cookies = request.getCookies();
-        String cookieStr = "";
+        StringBuffer cookieStr = new StringBuffer();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                String cookieString = cookie.getName() + "=" + cookie.getValue() + "," + cookie.getDomain() + "," + cookie.getPath() + ";";
-                cookieStr = cookieStr + cookieString;
+                cookieStr.append(cookie.getName()).append("=").append(cookie.getValue()).append(",")
+                        .append(cookie.getDomain()).append(",").append(cookie.getPath()).append(";");
             }
         } else {
-            cookieStr = "none";
+            cookieStr.append("none");
         }
-        log.info("Http请求[" + reqId + "]----->ip:" + ip + "," + uri + ",===header:" + headerJson.toJSONString() + "===params:" + paramsJson.toJSONString() + ",===cookies:" + cookieStr);
+
+        //参数信息
+        JSONObject paramsJson = new JSONObject();
+        Enumeration<String> parameterNames = request.getParameterNames();
+        while (parameterNames.hasMoreElements()) {
+            String param = parameterNames.nextElement();
+            if (EXCLUDE_SIGN_PARAMETER_NAMES.contains(param)) {
+                continue;
+            }
+            String val = request.getParameter(param);
+            paramsJson.put(param, val);
+        }
+
+        log.info("Http请求[{}]----->ip:[{}],===url:[{}],===header:[{}],===cookies:[{}],===params:[{}]", reqId, ip, uri, headerJson, cookieStr, paramsJson);
     }
 }

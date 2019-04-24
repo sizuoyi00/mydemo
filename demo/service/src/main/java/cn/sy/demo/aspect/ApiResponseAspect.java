@@ -1,7 +1,5 @@
-package cn.sy.demo.interceptor.req;
+package cn.sy.demo.aspect;
 
-import cn.sy.demo.interceptor.res.ApiResponse;
-import cn.sy.demo.interceptor.res.SkipResponseWrap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -28,11 +26,11 @@ public class ApiResponseAspect {
 	public void requestMapping() {
 	}
 
-	@Pointcut("within(cn.sy..*))")
-	public void jf180() {
+	@Pointcut("within(cn.sy.demo..*))")
+	public void demo() {
 	}
 
-	@Pointcut("requestMapping() && jf180()")
+	@Pointcut("requestMapping() && demo()")
 	public void apiResponse() {
 	}
 
@@ -48,7 +46,7 @@ public class ApiResponseAspect {
 
 	/**
      * 不包装返回值的场景有两种
-     * 1 历史遗留问题，controller自己返回的数据结构是ApiResponse
+     * 1 controller自己返回的数据结构是ApiResponse
      * 2 方法上加了SkipResponseWrap注解的
      */
     private boolean isWrapResponse(JoinPoint joinPoint) {

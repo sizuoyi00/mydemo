@@ -1,5 +1,6 @@
 package cn.sy.demo.conf.cache;
 
+import cn.sy.demo.constant.CacheConstsEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -34,31 +35,24 @@ public class RedisCacheConfig {
         return redisTemplate;
     }
 
-    /* @Bean
-    public CacheManager cacheManager(RedisTemplate redisTemplate) {
-        //【重点】【new RedisCacheManager()在 springboot2.x 里无效】
-        RedisCacheManager manager = new RedisCacheManager(redisTemplate);
-        manager.setUsePrefix(true);
-        RedisCachePrefix cachePrefix = new RedisPrefix("prefix");
-        manager.setCachePrefix(cachePrefix);
-        // 整体缓存过期时间
-        manager.setDefaultExpiration(3600L);
-        // 设置缓存过期时间。key和缓存过期时间，单位秒
-        Map<String, Long> expiresMap = new HashMap<>();
-        expiresMap.put("user", 1000L);
-        manager.setExpires(expiresMap);
-        return manager;
-    }*/
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory connectionFactory){
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofSeconds(3600L))
+                .prefixKeysWith(CacheConstsEnum.USER.getPrefixKey())
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
                 .disableCachingNullValues();
 
+        Map<String, RedisCacheConfiguration> configurationMap = new HashMap<>();
+        //当该map的key与注解@CachePut与@Cacheable(value = "DEMO_USER")中的value完全同步
+        //该缓存匹配该key对应的配置，主要用于设置单独的失效时间，单独的前缀
+        configurationMap.put(CacheConstsEnum.DEMO_USER.getCode(),
+                config.entryTtl(Duration.ofSeconds(120L)).prefixKeysWith(CacheConstsEnum.DEMO_USER.getPrefixKey()));
+
         RedisCacheManager redisCacheManager = RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(config)
+                .withInitialCacheConfigurations(configurationMap)
                 .transactionAware()
                 .build();
 

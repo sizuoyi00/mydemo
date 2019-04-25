@@ -18,13 +18,15 @@ public class UserServiceImpl implements UserService{
 
     /**
      * 只有该方法成功返回，才会加缓存
+     * 该注解的value匹配到cacheconfig中map的key时，则使用对应的配置
      * return 一定要返回要想要缓存的对象
       * @param user
      * @return
      */
     @Override
 //    @CachePut(value = {"user"},key ="\"user_\" + #user.id")
-    @CachePut(value = "user", key ="#root.methodName+'_'+#user.id")
+//    @CachePut(value = "user", key ="#root.methodName+'_'+#user.id")
+    @CachePut(value = "DEMO_USER", key ="#root.methodName+'_'+#user.id")
     public User save(User user) {
         userDao.insertSelective(user);
         return user;

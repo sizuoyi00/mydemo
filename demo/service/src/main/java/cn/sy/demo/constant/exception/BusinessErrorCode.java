@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum BusinessErrorCode {
     
     IP_INVALID (1002, "访问非法"),
-    REQUEST_FREQUENTLY (1005, "请求过于频繁");
+    REQUEST_FREQUENTLY (1005, "请求过于频繁"),
+    SIGN_INVALID(1004, "验签失败");
 
     private int code;
 

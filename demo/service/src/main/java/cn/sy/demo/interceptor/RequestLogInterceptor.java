@@ -1,10 +1,10 @@
 package cn.sy.demo.interceptor;
 
-import cn.sy.demo.conf.context.ThreadContextHolder;
 import cn.sy.demo.utils.IpUtils;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.Cookie;
@@ -13,20 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @Slf4j
+@Component
 public class RequestLogInterceptor extends HandlerInterceptorAdapter {
 
     private static final List<String> EXCLUDE_SIGN_PARAMETER_NAMES = Arrays.asList(new String[] { "faceIdCardImg", "backIdCardImg", "faceRecognitionImg" });
 
     @Override
-    public boolean preHandle(HttpServletRequest request,
-            HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         try {
-            ThreadContextHolder.setHttpRequest(request);
-            ThreadContextHolder.setHttpResponse(response);
             String reqId = UUID.randomUUID().toString().replaceAll("-", "");
-            Date reqTime = new Date();
-            request.setAttribute("reqId", reqId);
-            request.setAttribute("reqTime", reqTime);
             String ip = IpUtils.getIp(request);
             if (!StringUtils.isEmpty(ip)) {
                 request.setAttribute("ip", ip);

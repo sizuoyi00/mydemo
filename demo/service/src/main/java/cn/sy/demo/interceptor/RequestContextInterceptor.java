@@ -1,8 +1,8 @@
 package cn.sy.demo.interceptor;
 
-import cn.sy.demo.conf.context.ThreadContextHolder;
+import cn.sy.demo.constant.context.ThreadContextHolder;
 //import org.springframework.lang.Nullable;
-import com.sun.istack.internal.Nullable;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 上下文初始化
  */
+@Component
 public class RequestContextInterceptor extends HandlerInterceptorAdapter {
 
 

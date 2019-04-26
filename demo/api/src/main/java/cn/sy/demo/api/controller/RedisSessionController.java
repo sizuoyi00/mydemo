@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 public class RedisSessionController {
 
     @RequestMapping("/createSession")
-    public String createSession(HttpServletRequest request, HttpSession session, String name) throws JSONException {
+    public Object createSession(HttpServletRequest request, HttpSession session, String name) throws JSONException {
         session.setAttribute("name", name);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("port", request.getLocalPort());
@@ -25,7 +25,7 @@ public class RedisSessionController {
     }
 
     @RequestMapping("/getSession")
-    public String getSession(HttpServletRequest request, HttpSession session) throws JSONException {
+    public Object getSession(HttpServletRequest request, HttpSession session) throws JSONException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("port", request.getLocalPort());
         jsonObject.put("sessionid", session.getId());

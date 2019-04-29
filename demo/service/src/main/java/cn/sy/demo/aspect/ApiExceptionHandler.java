@@ -4,6 +4,7 @@ import cn.sy.demo.constant.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 
 @ControllerAdvice
 @Order
@@ -35,12 +39,24 @@ public class ApiExceptionHandler {
 		return ApiResponse.from(ApiResponseCode.API_REQUEST_METHOD_NOT_SUPPORTED);
 	}
 
-	@ExceptionHandler({ BindException.class, MethodArgumentNotValidException.class,MissingServletRequestParameterException.class })
+	@ExceptionHandler({MissingServletRequestParameterException.class, HttpMessageNotReadableException.class})
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	@ResponseBody
 	public Object handleParameterValidateException(Throwable e) {
 		log.warn("parameter validate failed", e);
 		return ApiResponse.from(ApiResponseCode.API_PARAMS_INVALID);
+	}
+
+	/**
+	 * 通过公共校验模板返回给前端的异常处理
+	 * @param e
+	 * @return
+	 */
+	@ExceptionHandler({BindException.class, ConstraintViolationException.class, ValidationException.class, MethodArgumentNotValidException.class})
+	@ResponseBody
+	public Object handleParameterToViewException(Throwable e) {
+		log.warn("parameter validate failed", e);
+		return ApiResponse.from(e);
 	}
 
 	@ExceptionHandler(BusinessException.class)

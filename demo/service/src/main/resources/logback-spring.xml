@@ -63,9 +63,9 @@
 	<logger name="com" level="WARN" />
 	<logger name="org" level="WARN" />
 
-	<logger name="cn.sy" level="DEBUG" additivity="true">
-		<appender-ref ref="ERROR_EMAIL" />
-	</logger>
+	<!--<logger name="cn.sy" level="DEBUG" additivity="true">-->
+		<!--<appender-ref ref="ERROR_EMAIL" />-->
+	<!--</logger>-->
 
 	<root level="debug">
 		<appender-ref ref="FILE" />

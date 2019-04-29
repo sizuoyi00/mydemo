@@ -2,6 +2,7 @@ package cn.sy.demo.interceptor;
 
 import cn.sy.demo.constant.exception.BusinessErrorCode;
 import cn.sy.demo.constant.exception.BusinessException;
+import cn.sy.demo.utils.IpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ public class IpFilterInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		String ip = request.getHeader("X-Real-IP");
+		String ip = IpUtils.getIp(request);
 		log.debug(" ip is :" + ip);
 		
 		if (!ipList.contains(ip) && !ip.startsWith("10.")) {

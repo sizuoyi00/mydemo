@@ -3,9 +3,15 @@ package cn.sy.demo.aspect;
 
 import cn.sy.demo.constant.exception.BusinessException;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
+import java.util.Iterator;
+import java.util.Set;
 
 @Data
 public class ApiResponse {
@@ -39,7 +45,21 @@ public class ApiResponse {
         if(data instanceof BusinessException) {
             return from((BusinessException)data);
         }
-        
+
+
+        if(data instanceof BindException) {
+            return from((BindException)data);
+        }
+        if(data instanceof ConstraintViolationException){
+            return from((ConstraintViolationException)data);
+        }
+        if(data instanceof ValidationException){
+            return from((ValidationException)data);
+        }
+        if(data instanceof MethodArgumentNotValidException){
+            return from((MethodArgumentNotValidException)data);
+        }
+
         ApiResponse response = new ApiResponse();
         response.data = data;
         return response;
@@ -51,5 +71,44 @@ public class ApiResponse {
         response.message = ex.getMessage();
         return response;
     }
-    
+
+    public static ApiResponse from(ConstraintViolationException ex) {
+        ApiResponse response = new ApiResponse();
+        response.code = ApiResponseCode.API_PARAMS_INVALID.getCode();
+        final Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
+        final Iterator<ConstraintViolation<?>> iterator = constraintViolations.iterator();
+        if(iterator.hasNext()){
+            response.message = iterator.next().getMessage();
+        }else{
+            response.message = ApiResponseCode.API_PARAMS_INVALID.getMessage();
+        }
+        return response;
+    }
+
+    public static ApiResponse from(ValidationException ex) {
+        //TODO 测试
+        ApiResponse response = new ApiResponse();
+        response.code = ApiResponseCode.API_PARAMS_INVALID.getCode();
+        response.message = ex.getMessage();
+        return response;
+    }
+    public static ApiResponse from(BindException ex) {
+        ApiResponse response = new ApiResponse();
+        BindingResult result = ex.getBindingResult();
+        return bindResultRes(response, result);
+    }
+
+    public static ApiResponse from(MethodArgumentNotValidException ex) {
+        ApiResponse response = new ApiResponse();
+        BindingResult result = ex.getBindingResult();
+        return bindResultRes(response, result);
+    }
+
+    private static ApiResponse bindResultRes(ApiResponse response, BindingResult result) {
+        FieldError error = result.getFieldError();
+        response.code = ApiResponseCode.API_PARAMS_INVALID.getCode();
+        response.message = error.getDefaultMessage();
+        return response;
+    }
+
 }

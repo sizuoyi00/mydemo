@@ -1,4 +1,4 @@
-package cn.sy.demo.constant.res;
+package cn.sy.demo.constant;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;

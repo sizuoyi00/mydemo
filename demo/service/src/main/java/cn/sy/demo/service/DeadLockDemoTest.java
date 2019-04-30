@@ -1,6 +1,6 @@
 package cn.sy.demo.service;
 
-public class DeadLockDemo {
+public class DeadLockDemoTest {
  
 	public static void main(String[] args) {
 		Object lockA = new Object();

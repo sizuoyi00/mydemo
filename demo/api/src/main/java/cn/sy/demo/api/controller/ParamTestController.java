@@ -1,8 +1,8 @@
 package cn.sy.demo.api.controller;
 
 import cn.sy.demo.model.User;
-import cn.sy.demo.constant.req.UserReq;
-import cn.sy.demo.constant.res.UserRes;
+import cn.sy.demo.constant.UserReq;
+import cn.sy.demo.constant.UserRes;
 import cn.sy.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,7 +16,7 @@ import java.util.Date;
 @Validated
 @RestController
 @RequestMapping(value = "user")
-public class UserController {
+public class ParamTestController {
 
     @Autowired
     private UserService userService;

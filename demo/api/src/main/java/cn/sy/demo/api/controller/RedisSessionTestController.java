@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @Slf4j
-public class RedisSessionController {
+public class RedisSessionTestController {
 
     @RequestMapping("/createSession")
     public Object createSession(HttpServletRequest request, HttpSession session, String name) throws JSONException {

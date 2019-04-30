@@ -1,6 +1,6 @@
 package cn.sy.demo.conf.cache;
 
-import cn.sy.demo.constant.CacheConstsEnum;
+import cn.sy.demo.constant.enums.CacheConstsEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;

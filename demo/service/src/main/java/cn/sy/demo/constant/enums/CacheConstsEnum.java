@@ -1,4 +1,4 @@
-package cn.sy.demo.constant;
+package cn.sy.demo.constant.enums;
 
 import lombok.Getter;
 

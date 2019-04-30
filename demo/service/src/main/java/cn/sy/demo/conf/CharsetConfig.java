@@ -1,4 +1,4 @@
-package cn.sy.demo.conf.charset;
+package cn.sy.demo.conf;
 
 import cn.sy.demo.filter.MutiCharacterEncodingFilter;
 import org.springframework.context.annotation.Bean;

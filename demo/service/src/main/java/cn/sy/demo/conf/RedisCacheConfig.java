@@ -1,4 +1,4 @@
-package cn.sy.demo.conf.cache;
+package cn.sy.demo.conf;
 
 import cn.sy.demo.constant.enums.CacheConstsEnum;
 import lombok.extern.slf4j.Slf4j;

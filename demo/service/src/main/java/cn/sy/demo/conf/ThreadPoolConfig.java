@@ -1,4 +1,4 @@
-package cn.sy.demo.conf.pool;
+package cn.sy.demo.conf;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,6 @@
 package cn.sy.demo.service.impl;
 
-import cn.sy.demo.conf.mq.RabbitMqConfig;
+import cn.sy.demo.conf.RabbitMqConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;

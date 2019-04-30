@@ -86,7 +86,6 @@ public class ApiResponse {
     }
 
     public static ApiResponse from(ValidationException ex) {
-        //TODO 测试
         ApiResponse response = new ApiResponse();
         response.code = ApiResponseCode.API_PARAMS_INVALID.getCode();
         response.message = ex.getMessage();

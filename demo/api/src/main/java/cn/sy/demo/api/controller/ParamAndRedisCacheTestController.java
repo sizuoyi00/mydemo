@@ -1,5 +1,7 @@
 package cn.sy.demo.api.controller;
 
+import cn.sy.demo.constant.UserReqGroup;
+import cn.sy.demo.constant.validation.ForQuery;
 import cn.sy.demo.model.User;
 import cn.sy.demo.constant.UserReq;
 import cn.sy.demo.constant.UserRes;
@@ -10,13 +12,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 @Validated
 @RestController
 @RequestMapping(value = "user")
-public class ParamTestController {
+public class ParamAndRedisCacheTestController {
 
     @Autowired
     private UserService userService;
@@ -58,12 +61,34 @@ public class ParamTestController {
         return req;
     }
 
-    @RequestMapping(value = "jackson/res3",method = RequestMethod.GET)
-    public Object testJacksonRes2(@NotEmpty(message = "姓名不能为空") String name){
+    @RequestMapping(value = "jackson/res3/{id}",method = RequestMethod.GET)
+    public Object testJacksonRes2(@PathVariable("id")@Min(5)Integer id, @NotEmpty(message = "姓名不能为空") String name){
         UserRes res = new UserRes();
+        res.setPassWord(id+"");
         res.setUserName(name);
         res.setCurrDate(new Date());
         return res;
+    }
+
+    /**
+     * @Validated(ForQuery.class)
+     * 通过@Validate注解标识要验证的分组
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "jackson/resgroup",method = RequestMethod.GET)
+    public Object testRes(@Validated(ForQuery.class) UserReqGroup req){
+        return req;
+    }
+
+    /**
+     * 如果这里不指定校验组，则会调用没有定义组的校验
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "jackson/resgroup2",method = RequestMethod.GET)
+    public Object testRes2(@Valid UserReqGroup req){
+        return req;
     }
 
     @RequestMapping(value = "get/{id}",method = RequestMethod.GET)

@@ -8,7 +8,7 @@ import org.junit.Test;
 import javax.annotation.Resource;
 
 @Slf4j
-public class ParamTestControllerTest extends BaseControllerTest {
+public class ParamTestControllerAndRedisCacheTest extends BaseControllerTest {
 
     @Resource
     private UserService userService;

@@ -1,10 +1,12 @@
 package cn.sy.demo.constant;
 
+import cn.sy.demo.manager.validation.IpAddress;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -32,5 +34,9 @@ public class UserReq {
     //使用表单提交这里会报错，所以以后尽量规范使用json提交
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date date;
+
+    @NotNull
+    @IpAddress(message = "ip不符合规范")
+    private String ipAdress;
 
 }

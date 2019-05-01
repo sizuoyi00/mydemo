@@ -1,4 +1,4 @@
-package cn.sy.demo.easytest;
+package cn.sy.demo.service;
 
 public class DeadLockDemoTest {
  

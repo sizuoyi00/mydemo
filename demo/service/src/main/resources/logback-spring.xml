@@ -58,7 +58,6 @@
 		
 	<!-- <logger name="org.hibernate" level="DEBUG" /> -->
 	<logger name="org.hibernate.SQL" level="DEBUG" />
-	<logger name="com.baomidou.mybatisplus.samples" level="DEBUG"/>
 
 	<logger name="io" level="WARN" />
 	<logger name="com" level="WARN" />

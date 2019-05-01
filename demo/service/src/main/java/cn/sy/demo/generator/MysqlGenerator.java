@@ -19,19 +19,14 @@ import java.util.List;
 public class MysqlGenerator {
 
     /**
-     * 项目名称
+     * 项目名称 或 多数据源名称
      */
     private static String productName = "demo";
 
     /**
-     * 多数据源名称
-     */
-    private static String dataSourceName = "tarot";
-
-    /**
      * 表名
      */
-    private static String tableName = "invitation_info";
+    private static String tableName = "user_info";
 
 
     /**
@@ -71,7 +66,7 @@ public class MysqlGenerator {
         pc.setController("controller");
         pc.setService("service");
         pc.setServiceImpl("service.impl");
-        pc.setMapper("dao."+dataSourceName);
+        pc.setMapper("dao."+productName);
         pc.setEntity("model");
         mpg.setPackageInfo(pc);
 
@@ -87,7 +82,7 @@ public class MysqlGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 这里修改xml配置文件位置
-                return projectPath + "/"+productName+"/service/src/main/resources/dao/mapper/" + dataSourceName
+                return projectPath + "/"+productName+"/service/src/main/resources/dao/mapper/" + productName
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });

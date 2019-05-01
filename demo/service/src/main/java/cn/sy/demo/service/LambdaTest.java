@@ -1,4 +1,4 @@
-package cn.sy.demo.easytest;
+package cn.sy.demo.service;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,9 +20,6 @@ public class LambdaTest {
         final List<String> collect2 = list2.stream().map(l -> l + "haha")
                 .collect(Collectors.toList());
 
-        //person -> person.getAge();
-        // 传入参数是person，返回值是person.getAge()，
-        // 那么方法引用Person::getAge就对应着Function<Person,Integer>类型。
         list1.forEach(System.out::println);
         collect2.forEach(System.out::println);
 

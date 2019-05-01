@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sy.demo.dao.tarot.UserInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.sy.demo.model.UserInfo">
+        <result column="id" property="id"/>
+        <result column="login_id" property="loginId"/>
+        <result column="mobile" property="mobile"/>
+        <result column="email" property="email"/>
+        <result column="pwd" property="pwd"/>
+        <result column="birthday" property="birthday"/>
+        <result column="state" property="state"/>
+        <result column="invitation_code" property="invitationCode"/>
+        <result column="user_profile" property="userProfile"/>
+        <result column="head_img_url" property="headImgUrl"/>
+        <result column="coin_count" property="coinCount"/>
+        <result column="coin_img_url" property="coinImgUrl"/>
+        <result column="point_count" property="pointCount"/>
+        <result column="point_img_url" property="pointImgUrl"/>
+        <result column="modify_time" property="modifyTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, login_id, mobile, email, pwd, birthday, state, invitation_code, user_profile, head_img_url, coin_count, coin_img_url, point_count, point_img_url, modify_time
+    </sql>
+
+</mapper>

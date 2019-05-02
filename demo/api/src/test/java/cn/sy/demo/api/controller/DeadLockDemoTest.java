@@ -1,4 +1,4 @@
-package cn.sy.demo.service;
+package cn.sy.demo.api.controller;
 
 public class DeadLockDemoTest {
  

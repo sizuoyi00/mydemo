@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sy.demo.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.sy.demo.model.User">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="id_card" property="idCard" />
+        <result column="status" property="status" />
+        <result column="phone" property="phone" />
+        <result column="modify_time" property="modifyTime" />
+        <result column="create_time" property="createTime" />
+        <result column="version" property="version" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, id_card, status, phone, modify_time, create_time, version
+    </sql>
+
+    <select id="getUser" resultType="cn.sy.demo.model.User">
+        select * from user where id_card = #{idCard}
+    </select>
+
+</mapper>

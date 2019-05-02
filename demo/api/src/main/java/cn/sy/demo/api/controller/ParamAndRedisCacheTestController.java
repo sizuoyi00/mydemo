@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Validated
@@ -28,8 +29,7 @@ public class ParamAndRedisCacheTestController {
     public Object testJacksonReq(){
         final User user = new User();
         user.setName("hehe");
-        user.setFinName("hehehehe");
-        user.setFinCreditTime(new Date());
+        user.setCreateTime(LocalDateTime.now());
         return user;
     }
 

@@ -1,146 +1,75 @@
 package cn.sy.demo.model;
 
-import java.io.Serializable;
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.Version;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
-public class User implements Serializable{
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+/**
+ * <p>
+ * 用户基础信息
+ * </p>
+ *
+ * @author guests
+ * @since 2019-05-03
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * id
+     */
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
+    /**
+     * 姓名
+     */
+    @TableField("name")
     private String name;
 
+    /**
+     * 身份证号码
+     */
+    @TableField("id_card")
     private String idCard;
 
-    private String idCardImgPath;
-
+    /**
+     * 用户状态,0:正常,99:逻辑删除
+     */
+    @TableField("status")
     private Integer status;
 
+    /**
+     * 手机号
+     */
+    @TableField("phone")
     private String phone;
 
-    private Integer opVerifyStatus;
+    /**
+     * 修改时间
+     */
+    @TableField("modify_time")
+    private LocalDateTime modifyTime;
 
-    private String tmallUserName;
+    /**
+     * 创建时间
+     */
+    @TableField("create_time")
+    private LocalDateTime createTime;
 
-    private Integer tmallVerifyStatus;
+    @TableField("version")
+    @Version
+    private Integer version;
 
-    private Integer finId;
-
-    private String finName;
-
-    private String finCreditId;
-
-    private Integer finCreditStatus;
-
-    private Date finCreditTime;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getIdCard() {
-        return idCard;
-    }
-
-    public void setIdCard(String idCard) {
-        this.idCard = idCard;
-    }
-
-    public String getIdCardImgPath() {
-        return idCardImgPath;
-    }
-
-    public void setIdCardImgPath(String idCardImgPath) {
-        this.idCardImgPath = idCardImgPath;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Integer getOpVerifyStatus() {
-        return opVerifyStatus;
-    }
-
-    public void setOpVerifyStatus(Integer opVerifyStatus) {
-        this.opVerifyStatus = opVerifyStatus;
-    }
-
-    public String getTmallUserName() {
-        return tmallUserName;
-    }
-
-    public void setTmallUserName(String tmallUserName) {
-        this.tmallUserName = tmallUserName;
-    }
-
-    public Integer getTmallVerifyStatus() {
-        return tmallVerifyStatus;
-    }
-
-    public void setTmallVerifyStatus(Integer tmallVerifyStatus) {
-        this.tmallVerifyStatus = tmallVerifyStatus;
-    }
-
-    public Integer getFinId() {
-        return finId;
-    }
-
-    public void setFinId(Integer finId) {
-        this.finId = finId;
-    }
-
-    public String getFinName() {
-        return finName;
-    }
-
-    public void setFinName(String finName) {
-        this.finName = finName;
-    }
-
-    public String getFinCreditId() {
-        return finCreditId;
-    }
-
-    public void setFinCreditId(String finCreditId) {
-        this.finCreditId = finCreditId;
-    }
-
-    public Integer getFinCreditStatus() {
-        return finCreditStatus;
-    }
-
-    public void setFinCreditStatus(Integer finCreditStatus) {
-        this.finCreditStatus = finCreditStatus;
-    }
-
-    public Date getFinCreditTime() {
-        return finCreditTime;
-    }
-
-    public void setFinCreditTime(Date finCreditTime) {
-        this.finCreditTime = finCreditTime;
-    }
 }

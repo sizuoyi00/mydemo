@@ -18,7 +18,7 @@ public class ParamTestControllerAndRedisCacheTest extends BaseControllerTest {
         User user = new User();
         user.setName("hhehehehehhehe");
         user.setId(45452349800L);
-        User u= userService.save(user);
+        User u= userService.saveUser(user);
         log.info("11111,{}", u.getName());
     }
 

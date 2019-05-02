@@ -19,7 +19,7 @@ import java.util.List;
 public class MysqlGenerator {
 
     /**
-     * 项目名称 或 多数据源名称
+     * 项目名称
      */
     private static String productName = "demo";
 
@@ -47,6 +47,7 @@ public class MysqlGenerator {
         gc.setBaseResultMap(true);
         gc.setBaseColumnList(true);
         gc.setFileOverride(true);
+        //主键id类型
         gc.setIdType(IdType.AUTO);
         mpg.setGlobalConfig(gc);
 
@@ -56,6 +57,11 @@ public class MysqlGenerator {
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("tarot");
         dsc.setPassword("gwOLtfC0t&WN0oZU");
+
+//        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/sy_demo?characterEncoding=utf8&useSSL=false&serverTimezone=GMT");
+//        dsc.setDriverName("com.mysql.jdbc.Driver");
+//        dsc.setUsername("root");
+//        dsc.setPassword("Jifen004");
         mpg.setDataSource(dsc);
 
         // 包配置
@@ -66,7 +72,7 @@ public class MysqlGenerator {
         pc.setController("controller");
         pc.setService("service");
         pc.setServiceImpl("service.impl");
-        pc.setMapper("dao."+productName);
+        pc.setMapper("mapper");
         pc.setEntity("model");
         mpg.setPackageInfo(pc);
 
@@ -82,8 +88,8 @@ public class MysqlGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 这里修改xml配置文件位置
-                return projectPath + "/"+productName+"/service/src/main/resources/dao/mapper/" + productName
-                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                return projectPath + "/"+productName+"/service/src/main/resources/mapper/"
+                        + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
         cfg.setFileOutConfigList(focList);
@@ -96,16 +102,18 @@ public class MysqlGenerator {
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         //是否为lombok模型
         strategy.setEntityLombokModel(true);
+        strategy.setRestControllerStyle(true);
         //表名
         strategy.setInclude(tableName);
-        //自定义基础的Entity类，公共字段
-        strategy.setSuperEntityColumns("id","create_time");
+        strategy.setEntityTableFieldAnnotationEnable(true);
+        //自定义基础的Entity类-即公共基础model，公共字段
+//        strategy.setSuperEntityColumns("id");
         //驼峰转连字符
         strategy.setControllerMappingHyphenStyle(true);
         //移出数据库中is_xxx,在映射实体的时候则会去掉is
         strategy.setEntityBooleanColumnRemoveIsPrefix(true);
         //乐观锁字段名称
-        strategy.setVersionFieldName("modify_time");
+        strategy.setVersionFieldName("version");
 
         mpg.setStrategy(strategy);
         // 选择 freemarker 引擎需要指定如下加，注意 pom 依赖必须有！

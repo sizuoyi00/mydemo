@@ -1,8 +1,5 @@
 package cn.sy.demo.manager.validation;
 
-import cn.sy.demo.dao.demo.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Matcher;
@@ -14,16 +11,10 @@ import java.util.regex.Pattern;
 class IpAddressValidator implements ConstraintValidator<IpAddress, String> {
 
     /**
-     * 这里可以通过调用数据库做参数验证
+     * 这里可以通过注入mapper调用数据库做参数验证
      */
-    @Autowired
-    private UserMapper userMapper;
-
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-
-        //测试下能否注入到userMapper --可以
-        userMapper.selectByPrimaryKey(1L);
 
         Pattern pattern = Pattern.compile("^([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})$");
         Matcher matcher = pattern.matcher(value);

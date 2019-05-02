@@ -1,34 +1,71 @@
 package cn.sy.demo.service.impl;
 
-import cn.sy.demo.dao.demo.UserDao;
+import cn.sy.demo.mapper.UserMapper;
 import cn.sy.demo.model.User;
 import cn.sy.demo.model.UserExample;
 import cn.sy.demo.service.UserService;
+import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
 
+import javax.annotation.Resource;
+import java.util.List;
+
+/**
+ * <p>
+ * 用户基础信息 服务实现类
+ * </p>
+ *
+ * @author guests
+ * @since 2019-05-03
+ */
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     @Resource
-    private UserDao userDao;
+    private UserMapper userMapper;
+
+    @Override
+    public User getUser(String idCard) {
+        return userMapper.getUser(idCard);
+    }
+
+    @Override
+    @DS("local")
+    public List<User> getUserPlus(String idCard) {
+        final List<User> users = userMapper.selectList(new QueryWrapper<User>().lambda().eq(User::getIdCard, idCard));
+        return users;
+    }
+
+    @Override
+    public IPage<User> getUserPage(int index, int size) {
+        Page<User> page = new Page<>(index, size);
+        IPage<User> userIPage = userMapper.selectPage(page, Wrappers.<User>lambdaQuery()
+                .eq(User::getName, "hhehehehehhehe"));
+        return userIPage;
+
+    }
 
     /**
      * 只有该方法成功返回，才会加缓存
      * 该注解的value匹配到cacheconfig中map的key时，则使用对应的配置
      * return 一定要返回要想要缓存的对象
-      * @param user
+     * @param user
      * @return
      */
     @Override
 //    @CachePut(value = {"user"},key ="\"user_\" + #user.id")
 //    @CachePut(value = "user", key ="#root.methodName+'_'+#user.id")
     @CachePut(value = "DEMO_USER", key ="#root.methodName+'_'+#user.id")
-    public User save(User user) {
-        userDao.insertSelective(user);
+    public User saveUser(User user) {
+//        userMapper.insertSelective(user);
         return user;
     }
 
@@ -42,7 +79,7 @@ public class UserServiceImpl implements UserService{
     public User modify(User user) {
         UserExample example = new UserExample();
         example.createCriteria().andIdEqualTo(user.getId());
-        userDao.updateByExampleSelective(user,example);
+//        userMapper.updateByExampleSelective(user,example);
         return user;
     }
 
@@ -56,8 +93,8 @@ public class UserServiceImpl implements UserService{
     @Override
     @Cacheable(value = {"user"},key ="\"user_\" + #id")
     public User get(long id) {
-        final User user = userDao.selectByPrimaryKey(id);
-        return user;
+//        final User user = userMapper.selectByPrimaryKey(id);
+        return null;
     }
 
     /**
@@ -69,6 +106,7 @@ public class UserServiceImpl implements UserService{
     @Override
     @CacheEvict(value = "user",key = "\"user_\" + #id",condition = "#id != -1")
     public void del(long id) {
-        userDao.deleteByPrimaryKey(id);
+//        userMapper.deleteByPrimaryKey(id);
     }
+
 }

@@ -16,13 +16,13 @@ import java.util.List;
  */
 public interface UserService extends IService<User> {
 
-    User saveUser(User user);
+    void saveUser(User user);
 
     User get(long id);
 
     void del(long id);
 
-    User modify(User user);
+    void modify(User user);
 
     User getUser(String idCard);
 

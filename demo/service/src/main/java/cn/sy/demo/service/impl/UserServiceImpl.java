@@ -1,8 +1,8 @@
 package cn.sy.demo.service.impl;
 
+import cn.sy.demo.manager.UserManager;
 import cn.sy.demo.mapper.UserMapper;
 import cn.sy.demo.model.User;
-import cn.sy.demo.model.UserExample;
 import cn.sy.demo.service.UserService;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -11,7 +11,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +20,8 @@ import java.util.List;
 /**
  * <p>
  * 用户基础信息 服务实现类
+ * 当我们选择使用rediscache时，要注意rediscache的方法返回值要返回该对象才可以，
+ * 所以我们抽出一层manager,做缓存处理，当我们不需要rediscache时，自己判断调用manager
  * </p>
  *
  * @author guests
@@ -28,6 +29,9 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
+    @Resource
+    private UserManager userManager;
 
     @Resource
     private UserMapper userMapper;
@@ -53,20 +57,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     }
 
-    /**
-     * 只有该方法成功返回，才会加缓存
-     * 该注解的value匹配到cacheconfig中map的key时，则使用对应的配置
-     * return 一定要返回要想要缓存的对象
-     * @param user
-     * @return
-     */
     @Override
-//    @CachePut(value = {"user"},key ="\"user_\" + #user.id")
-//    @CachePut(value = "user", key ="#root.methodName+'_'+#user.id")
-    @CachePut(value = "DEMO_USER", key ="#root.methodName+'_'+#user.id")
-    public User saveUser(User user) {
-//        userMapper.insertSelective(user);
-        return user;
+    public void saveUser(User user) {
+        userManager.saveUser(user);
     }
 
     /**
@@ -75,12 +68,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      */
     @Override
-    @CachePut(value = {"user"},key ="\"user_\" + #user.id")
-    public User modify(User user) {
-        UserExample example = new UserExample();
-        example.createCriteria().andIdEqualTo(user.getId());
-//        userMapper.updateByExampleSelective(user,example);
-        return user;
+    public void modify(User user) {
+        userManager.modify(user);
     }
 
     /**
@@ -93,8 +82,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     @Cacheable(value = {"user"},key ="\"user_\" + #id")
     public User get(long id) {
-//        final User user = userMapper.selectByPrimaryKey(id);
-        return null;
+        final User user = userMapper.selectById(id);
+        return user;
     }
 
     /**
@@ -106,7 +95,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     @CacheEvict(value = "user",key = "\"user_\" + #id",condition = "#id != -1")
     public void del(long id) {
-//        userMapper.deleteByPrimaryKey(id);
+        userMapper.deleteById(id);
     }
 
 }

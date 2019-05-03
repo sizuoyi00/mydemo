@@ -1,9 +1,9 @@
 package cn.sy.demo.service.impl;
 
-import cn.sy.demo.conf.RabbitMqConfig;
+import cn.sy.demo.constant.MQConstant;
 import cn.sy.demo.service.RabbitMqProducerService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,13 +16,13 @@ import javax.annotation.Resource;
 public class RabbitMqProducerServiceImpl implements RabbitMqProducerService{
 
     @Resource
-    private RabbitTemplate rabbitTemplate;
+    private AmqpTemplate amqpTemplate;
 
     @Override
     public void sendMessage(String msg) {
         log.info("~~~生产消息1111~~~[{}]",msg);
-        this.rabbitTemplate.convertAndSend(RabbitMqConfig.EXCHANGE,
-                RabbitMqConfig.ROUTINGKEY, msg);
+        System.out.println("~~~生产消息1111~~~ "+msg);
+        amqpTemplate.convertAndSend(MQConstant.EXCHANGE_TEST, MQConstant.KEY_TEST, msg);
     }
 
 }

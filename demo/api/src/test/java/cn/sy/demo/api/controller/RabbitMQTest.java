@@ -1,6 +1,7 @@
 package cn.sy.demo.api.controller;
 
-import cn.sy.demo.conf.RabbitMqConfig;
+import cn.sy.demo.conf.RabbitMqDLXConfig;
+import cn.sy.demo.conf.RabbitMqPluginConfig;
 import cn.sy.demo.model.User;
 import cn.sy.demo.service.RabbitMqProducerService;
 import cn.sy.demo.service.UserService;
@@ -17,25 +18,45 @@ public class RabbitMQTest extends BaseControllerTest{
     @Resource(name = "RabbitMqProducerServiceImpl1")
     private RabbitMqProducerService messageProducer;
 
-    @Resource(name = "RabbitMqProducerServiceImpl2")
-    private RabbitMqProducerService messageProducer2;
-
     @Resource
     private UserService userService;
 
     @Resource
     private AmqpTemplate amqpTemplate;
 
+    /**
+     * 插件形式延迟队列测试
+     */
     @Test
-    public void test() throws InterruptedException {
+    public void testPlugin(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        amqpTemplate.convertAndSend(RabbitMqConfig.ORDER_DELAY_EXCHANGE, RabbitMqConfig.ORDER_DELAY_ROUTING_KEY,
-                "hahahaxixixi" + sdf.format(new Date()), message -> {
+        amqpTemplate.convertAndSend(RabbitMqPluginConfig.DELAY_EXCHANGE_NAME, RabbitMqPluginConfig.DELAY_ROUTING_KEY,
+                "plugintest11111" + sdf.format(new Date()), message -> {
+                    message.getMessageProperties().setDelay(5 * 1000);
+//            message.getMessageProperties().setHeader("x-delay", 5 * 1000);
+            //插件不可以使用下边这种方式，会被立即消费
+//            message.getMessageProperties().setExpiration(3 * 1000 + "");
+            return message;
+        });
+    }
+
+    /**
+     * 死信形式延迟队列测试
+     */
+    @Test
+    public void testdlx() {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //延迟消费
+        amqpTemplate.convertAndSend(RabbitMqDLXConfig.ORDER_DELAY_EXCHANGE, RabbitMqDLXConfig.ORDER_DELAY_ROUTING_KEY,
+                "DLXtest11111" + sdf.format(new Date()), message -> {
                     message.getMessageProperties().setExpiration(3 * 1000 + "");
+                    //ttl+dxl不可以使用以下两种方式，经测试会在消息队列中堆积，不会被消费，后边的也会堆积，不知道为什么，暂不研究
+//                    message.getMessageProperties().setDelay(3000);
+//                    message.getMessageProperties().setHeader("x-delay", 3 * 1000);
                     return message;
                 });
 
-        Thread.sleep(5000);
     }
 
     @Test
@@ -54,14 +75,14 @@ public class RabbitMQTest extends BaseControllerTest{
         }
     }
 
-    @Test
-    public void testSendUser2() {
-        User u;
-        for (int x = 0; x < 100; x++) {
-            u= userService.get(33323L);
-            this.messageProducer.sendMessage(JSON.toJSONString(u));
-            messageProducer2.sendMessage(JSON.toJSONString(u)+x);
-        }
-    }
+//    @Test
+//    public void testSendUser2() {
+//        User u;
+//        for (int x = 0; x < 100; x++) {
+//            u= userService.get(33323L);
+//            this.messageProducer.sendMessage(JSON.toJSONString(u));
+//            messageProducer2.sendMessage(JSON.toJSONString(u)+x);
+//        }
+//    }
 
 }

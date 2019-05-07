@@ -9,16 +9,7 @@ import java.util.Map;
 
 
 @Configuration
-public class RabbitMqConfig {
-
-
-    /**
-     * direct,fanout,topic,headers 四种交换器
-     direct： 路由键完全匹配时，消息才投放到对应队列。AMQP实现都必须有一个direct交换器（默认交换器），名称为空白字符。队列不声明交换器，会自动绑定到默认交换器，队列的名称作为路由键。
-     fanout：可以理解为广播，会把交换器上的所有消息投放到绑定到这个交换机上的队列上，无论这个队列是通过哪个路由键绑定到这个交换器上的
-     topic：主题，使来自不同源头的消息到达同一个队列
-     headers: 匹配消息头，其余与direct一样，实用性不大
-     */
+public class RabbitMqDLXConfig {
 
     /**
      * 延迟队列 TTL 名称
@@ -26,17 +17,17 @@ public class RabbitMqConfig {
     public static final String ORDER_DELAY_QUEUE = "user.order.delay.queue";
     /**
      * DLX，dead letter发送到的 exchange
-     * 延时消息就是发送到该交换机的
+     * 延时消息就是发送到该交换机
      */
     public static final String ORDER_DELAY_EXCHANGE = "user.order.delay.exchange";
     /**
      * routing key 名称
-     * 具体消息发送在该 routingKey 的
+     * 具体消息发送在该 routingKey
      */
     public static final String ORDER_DELAY_ROUTING_KEY = "order_delay";
 
     /**
-     * 死信真正处理的交换机，路由，队列
+     * 死信会交给真正处理的交换机，路由，队列
      */
     public static final String ORDER_QUEUE_NAME = "user.order.queue";
     public static final String ORDER_EXCHANGE_NAME = "user.order.exchange";
@@ -52,6 +43,12 @@ public class RabbitMqConfig {
      * return message;
      * });
      * 第二种就是每次发送消息动态设置延迟时间,这样我们可以灵活控制
+     *
+     * 重要思想：
+     * 只有当原消费队列ORDER_DELAY_QUEUE 不被消费者监听，使得消息不被消费的情况，
+     * 也就是要先满足ttl条件
+     * 才会在设定ttl时间没被消费才会被打入到dlx中，
+     * 所以，一定不要监听原消费队列ORDER_DELAY_QUEUE，这样会被直接消费掉的
      **/
     @Bean
     public Queue delayOrderQueue() {
@@ -64,10 +61,15 @@ public class RabbitMqConfig {
     }
 
     /**
-     * 需要将一个队列绑定到交换机上，要求该消息与一个特定的路由键完全匹配。
-     * 这是一个完整的匹配。如果一个队列绑定到该交换机上要求路由键 “dog”，则只有被标记为“dog”的消息才被转发，
-     * 不会转发dog.puppy，也不会转发dog.guard，只会转发dog。
-     * @return DirectExchange
+     * /**
+     * direct,fanout,topic,headers 四种交换器
+     * direct： 路由键完全匹配时，消息才投放到对应队列。AMQP实现都必须有一个direct交换器（默认交换器），名称为空白字符。队列不声明交换器，会自动绑定到默认交换器，队列的名称作为路由键。
+     * fanout：可以理解为广播，会把交换器上的所有消息投放到绑定到这个交换机上的队列上，无论这个队列是通过哪个路由键绑定到这个交换器上的
+     * topic：主题，使来自不同源头的消息到达同一个队列
+     * headers: 匹配消息头，其余与direct一样，实用性不大
+     *
+     *  #：相当于一个或者多个单词，例如一个匹配模式是topic.#，那么，以topic开头的路由键都是可以的
+     *  *：相当于一个单词，例如一个匹配模式是topic.*，那么，以topic开头的路由键,后面接一个单词的都可以
      */
     @Bean
     public DirectExchange orderDelayExchange() {
@@ -80,8 +82,6 @@ public class RabbitMqConfig {
     }
 
 
-
-
     @Bean
     public Queue orderQueue() {
         return new Queue(ORDER_QUEUE_NAME, true);
@@ -91,13 +91,13 @@ public class RabbitMqConfig {
      * 符号“#”匹配一个或多个词，符号“*”匹配不多不少一个词。因此“audit.#”能够匹配到“audit.irs.corporate”，但是“audit.*” 只会匹配到“audit.irs”。
      **/
     @Bean
-    public TopicExchange orderTopicExchange() {
-        return new TopicExchange(ORDER_EXCHANGE_NAME);
+    public DirectExchange orderDirectExchange() {
+        return new DirectExchange(ORDER_EXCHANGE_NAME);
     }
 
     @Bean
     public Binding orderBinding() {
-        return BindingBuilder.bind(orderQueue()).to(orderTopicExchange()).with(ORDER_ROUTING_KEY);
+        return BindingBuilder.bind(orderQueue()).to(orderDirectExchange()).with(ORDER_ROUTING_KEY);
     }
 
 }

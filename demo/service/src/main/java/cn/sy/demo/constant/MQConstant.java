@@ -11,16 +11,37 @@ public class MQConstant {
 	 * topic:主题，使来自不同源头的消息到达同一个队列
 	 * headers:匹配消息头，其余与direct一样，实用性不大
 	 */
-	public final static String EXCHANGE_TEST = "DEMO_EXCHANGE";
+	public final static String EXCHANGE_TEST = "DEMO_EXCHANGE_TEST";
 
 	/**
 	 * Bind-key
 	 */
-	public final static String KEY_TEST = "DEMO_TETST_KEY";
+	public final static String KEY_TEST = "DEMO_TEST_KEY";
 
 	/**
 	 * Queue
 	 */
 	public final static String QUEUE_TEST = "DEMO_TEST_QUEUE";
+
+
+	/**
+	 * 延迟时间
+	 */
+	public final static String DELAY_TIMEOUT_TEST = "3000";
+
+	/**
+	 * 延迟Bind-key
+	 */
+	public final static String DELAY_KEY_TEST = "DEMO_DELAY_KEY";
+
+	/**
+	 * 延迟Queue
+	 */
+	public final static String DELAY_QUEUE_TEST = "DEMO_DELAY_QUEUE";
+
+	/**
+	 * 延迟Exchange
+	 */
+	public final static String DELAY_EXCHANGE_TEST = "DEMO_DELAY_EXCHANGE";
 
 }

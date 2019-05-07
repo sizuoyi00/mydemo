@@ -19,16 +19,14 @@ public class RabbitMqConsumerServiceImpl{
      * @param msg
      * @throws InterruptedException
      */
-    @RabbitListener(queues= RabbitMqConfig.QUEUE_NAME)
+    @RabbitListener(queues= RabbitMqConfig.ORDER_DELAY_QUEUE)
     public void receiveMessage1(String msg) throws InterruptedException {
-        Thread.sleep(1000);
         log.info("~~~消费消息1111~~~[{}]",msg);
         System.out.println("~~~消费消息1111~~~"+msg);
     }
 
-    @RabbitListener(queues= RabbitMqConfig.QUEUE_NAME)
+    @RabbitListener(queues= RabbitMqConfig.ORDER_QUEUE_NAME)
     public void receiveMessage2(String msg) throws InterruptedException {
-        Thread.sleep(1000);
         log.info("~~~消费消息2222~~~[{}]",msg);
         System.out.println("~~~消费消息2222~~~"+msg);
     }

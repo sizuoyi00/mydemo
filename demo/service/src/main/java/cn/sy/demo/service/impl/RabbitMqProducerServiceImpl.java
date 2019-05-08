@@ -20,8 +20,8 @@ public class RabbitMqProducerServiceImpl implements RabbitMqProducerService{
 
     @Override
     public void sendMessage(String msg) {
-        log.info("~~~生产消息1111~~~[{}]",msg);
-        System.out.println("~~~生产消息1111~~~ "+msg);
+        log.info("~~~生产消息beautify~~~[{}]",msg);
+        System.out.println("~~~生产消息beautify~~~ "+msg);
         amqpTemplate.convertAndSend(MQConstant.EXCHANGE_TEST, MQConstant.KEY_TEST, msg);
     }
 

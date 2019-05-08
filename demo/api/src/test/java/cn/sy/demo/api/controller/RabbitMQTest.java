@@ -61,7 +61,7 @@ public class RabbitMQTest extends BaseControllerTest{
 
     @Test
     public void testSend() {
-        for (int x = 0; x < 100; x++) {
+        for (int x = 0; x < 3; x++) {
             this.messageProducer.sendMessage("study sss- " + x);
         }
     }

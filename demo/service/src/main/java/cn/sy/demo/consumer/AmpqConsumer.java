@@ -2,7 +2,11 @@ package cn.sy.demo.consumer;
 
 import cn.sy.demo.conf.RabbitMqDLXConfig;
 import cn.sy.demo.conf.RabbitMqPluginConfig;
+import cn.sy.demo.constant.MQConstant;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -25,55 +29,32 @@ public class AmpqConsumer {
         System.out.println(new Date() + "~~~消费消息 DLX ORDER_QUEUE_NAME~~~"+msg);
     }
 
+    /**
+     * 插件延迟消费
+     * @param msg
+     */
     @RabbitListener(queues = RabbitMqPluginConfig.DELAY_QUEUE_NAME)
-    public void receive(String msg) {
+    public void receivePluginMessage(String msg) {
         log.info("~~~消费消息 plugin DELAY_QUEUE_NAME~~~"+msg);
         System.out.println(new Date() + "~~~消费消息 plugin DELAY_QUEUE_NAME~~~"+msg);
     }
 
 
-//    @RabbitListener(bindings = @QueueBinding(
-//            key = {MQConstant.KEY_TEST},
-//            value = @Queue(value = MQConstant.QUEUE_TEST),
-//            exchange = @Exchange(value = MQConstant.EXCHANGE_TEST)))
-//    public void receiveMessage1(String msg){
-//        try {
-//            Thread.sleep(1000);
-//            log.info("~~~消费消息1111~~~[{}]",msg);
-//            System.out.println("~~~消费消息1111~~~"+msg);
-//        } catch (Exception e) {
-//            log.error("mq error:",e);
-//        }
-//    }
-
-//    @RabbitListener(bindings = @QueueBinding(
-//            key = {MQConstant.KEY_TEST},
-//            value = @Queue(value = MQConstant.QUEUE_TEST),
-//            exchange = @Exchange(value = MQConstant.EXCHANGE_TEST)))
-//    public void receiveMessage2(String msg) {
-//        try {
-//            Thread.sleep(1000);
-//            log.info("~~~消费消息2222~~~[{}]",msg);
-//            System.out.println("~~~消费消息2222~~~"+msg);
-//        } catch (Exception e) {
-//            log.error("mq error:",e);
-//        }
-//
-//    }
-
-//    @RabbitListener(bindings = @QueueBinding(
-//            key = {MQConstant.DELAY_KEY_TEST},
-//            value = @Queue(value = MQConstant.DELAY_QUEUE_TEST),
-//            exchange = @Exchange(value = MQConstant.DELAY_EXCHANGE_TEST)))
-//    public void delayMessage(String msg) {
-//        try {
-//            Thread.sleep(1000);
-//            log.info("~~~消费消息3333~~~[{}]",msg);
-//            System.out.println("~~~消费消息3333~~~"+msg);
-//        } catch (Exception e) {
-//            log.error("mq error:",e);
-//        }
-//
-//    }
+    /**
+     * 正常队列 简洁写法
+      * @param msg
+     */
+    @RabbitListener(bindings = @QueueBinding(
+            key = {MQConstant.KEY_TEST},
+            value = @Queue(value = MQConstant.QUEUE_TEST),
+            exchange = @Exchange(value = MQConstant.EXCHANGE_TEST)))
+    public void receiveMessage1(String msg){
+        try {
+            log.info("~~~消费消息beautify~~~[{}]",msg);
+            System.out.println("~~~消费消息beautify~~~"+msg);
+        } catch (Exception e) {
+            log.error("mq error:",e);
+        }
+    }
 
 }

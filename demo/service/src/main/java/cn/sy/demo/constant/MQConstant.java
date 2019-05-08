@@ -23,25 +23,4 @@ public class MQConstant {
 	 */
 	public final static String QUEUE_TEST = "DEMO_TEST_QUEUE";
 
-
-	/**
-	 * 延迟时间
-	 */
-	public final static String DELAY_TIMEOUT_TEST = "3000";
-
-	/**
-	 * 延迟Bind-key
-	 */
-	public final static String DELAY_KEY_TEST = "DEMO_DELAY_KEY";
-
-	/**
-	 * 延迟Queue
-	 */
-	public final static String DELAY_QUEUE_TEST = "DEMO_DELAY_QUEUE";
-
-	/**
-	 * 延迟Exchange
-	 */
-	public final static String DELAY_EXCHANGE_TEST = "DEMO_DELAY_EXCHANGE";
-
 }

@@ -52,6 +52,12 @@ public class RabbitMqDLXConfig {
      **/
     @Bean
     public Queue delayOrderQueue() {
+
+//        return QueueBuilder.durable()
+//                .withArgument("x-dead-letter-exchange", ORDER_EXCHANGE_NAME)
+//                .withArgument("x-dead-letter-routing-key", ORDER_ROUTING_KEY)
+//                .build();
+
         Map<String, Object> params = new HashMap<>();
         // x-dead-letter-exchange 声明了队列里的死信 "转发到的DLX死信交换机名称" 也就是真正处理的交换机
         params.put("x-dead-letter-exchange", ORDER_EXCHANGE_NAME);
@@ -73,6 +79,7 @@ public class RabbitMqDLXConfig {
      */
     @Bean
     public DirectExchange orderDelayExchange() {
+//        return (DirectExchange) ExchangeBuilder.directExchange("orderDelayExchange").durable(true).build();
         return new DirectExchange(ORDER_DELAY_EXCHANGE);
     }
 

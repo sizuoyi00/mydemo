@@ -60,16 +60,19 @@ public class RabbitMQTest extends BaseControllerTest{
     }
 
     @Test
+    public void sendPubConfirmsdMessage() {
+        this.messageProducer.sendPubConfirmsdMessage("sendPubConfirmsdMessage");
+    }
+
+    @Test
     public void testSend() {
-        for (int x = 0; x < 3; x++) {
-            this.messageProducer.sendMessage("study sss- " + x);
-        }
+        this.messageProducer.sendMessage("study sss- sss");
     }
 
     @Test
     public void testSendUser() {
         User u;
-        for (int x = 0; x < 100; x++) {
+        for (int x = 0; x < 10; x++) {
             u= userService.get(33323L);
             this.messageProducer.sendMessage(JSON.toJSONString(u));
         }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sy.demo.mapper.JwtUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="jwtUserRole" type="cn.sy.demo.model.JwtUser">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <association property="role" columnPrefix="role_" resultMap="roleResult"/>
+    </resultMap>
+
+    <resultMap id="roleResult" type="cn.sy.demo.model.Role">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+    </resultMap>
+
+    <resultMap id="autoCascadeResult" type="cn.sy.demo.model.JwtUser">
+        <!-- association定义关联对象的封装规则
+            select:表明当前属性是调用select指定的方法查出的结果，使用mybatis-plus封装的或自己定义
+            column:指定将哪一列的值传给这个方法
+            流程：使用select指定的方法（传入column指定的这列参数的值）查出对象，并封装给property指定的属性
+         -->
+        <association property="role" column="role_id"
+                     javaType="cn.sy.demo.model.Role"
+                     select="cn.sy.demo.mapper.RoleMapper.selectById"/>
+                     <!--select="cn.sy.demo.mapper.RoleMapper.selectrole"/>-->
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, password, role_id, create_time, update_time
+    </sql>
+
+    <select id="selectUserWithRoleByUserName" resultMap="jwtUserRole">
+      select u.*, r.name as role_name, r.description as role_description
+      from jwt_user u left join role r on u.role_id = r.id
+      where u.username = #{username}
+    </select>
+
+    <select id="selectUserAutoWithRoleByUserName" resultMap="autoCascadeResult">
+      select * from jwt_user where username = #{username}
+    </select>
+
+
+</mapper>

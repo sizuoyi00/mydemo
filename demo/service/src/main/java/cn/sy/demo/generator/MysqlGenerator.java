@@ -26,7 +26,7 @@ public class MysqlGenerator {
     /**
      * 表名
      */
-    private static String tableName = "user_info";
+    private static String tableName = "jwt_user";
 
 
     /**
@@ -53,15 +53,15 @@ public class MysqlGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://47.254.81.173:3306/tarot?useUnicode=true&useSSL=false&characterEncoding=utf8");
-        dsc.setDriverName("com.mysql.jdbc.Driver");
-        dsc.setUsername("tarot");
-        dsc.setPassword("gwOLtfC0t&WN0oZU");
-
-//        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/sy_demo?characterEncoding=utf8&useSSL=false&serverTimezone=GMT");
+//        dsc.setUrl("jdbc:mysql://47.254.81.173:3306/tarot?useUnicode=true&useSSL=false&characterEncoding=utf8");
 //        dsc.setDriverName("com.mysql.jdbc.Driver");
-//        dsc.setUsername("root");
-//        dsc.setPassword("Jifen004");
+//        dsc.setUsername("tarot");
+//        dsc.setPassword("gwOLtfC0t&WN0oZU");
+
+        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/sy_demo?characterEncoding=utf8&useSSL=false&serverTimezone=GMT");
+        dsc.setDriverName("com.mysql.jdbc.Driver");
+        dsc.setUsername("root");
+        dsc.setPassword("Jifen004");
         mpg.setDataSource(dsc);
 
         // 包配置

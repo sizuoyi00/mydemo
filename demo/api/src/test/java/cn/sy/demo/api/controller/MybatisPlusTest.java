@@ -1,5 +1,7 @@
 package cn.sy.demo.api.controller;
 
+import cn.sy.demo.mapper.JwtUserMapper;
+import cn.sy.demo.model.JwtUser;
 import cn.sy.demo.model.User;
 import cn.sy.demo.model.UserInfo;
 import cn.sy.demo.service.UserInfoService;
@@ -17,6 +19,27 @@ public class MybatisPlusTest extends BaseControllerTest{
 
     @Resource
     private UserInfoService userInfoService;
+
+    @Resource
+    private JwtUserMapper jwtUserMapper;
+
+    /**
+     * 表的联级查询
+     */
+    @Test
+    public void testCascade(){
+        final JwtUser user = jwtUserMapper.selectUserWithRoleByUserName("sss");
+        System.out.println(user);
+    }
+
+    /**
+     * 表自动联级查询
+     */
+    @Test
+    public void testAutoCascade(){
+        final JwtUser user = jwtUserMapper.selectUserAutoWithRoleByUserName("sss");
+        System.out.println(user);
+    }
 
     @Test
     public void getUserInfo(){

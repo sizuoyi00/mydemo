@@ -4,6 +4,7 @@ import cn.sy.demo.constant.SysConstans;
 import cn.sy.demo.constant.enums.CacheConstsEnum;
 import cn.sy.demo.constant.exception.BusinessException;
 import cn.sy.demo.constant.role.JwtConstant;
+import cn.sy.demo.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.Objects;
 
@@ -36,7 +38,7 @@ public class JwtAuthenticationManager {
     @Resource(name = "jwtUserService")
     private UserDetailsService jwtUserService;
 
-    public void auth(HttpServletRequest req) {
+    public void auth(HttpServletRequest req, HttpServletResponse resp) {
 
         //获取前端token
         String webToken = getToken(req);
@@ -48,7 +50,7 @@ public class JwtAuthenticationManager {
         if (Strings.isNotBlank(webToken)) {
 
             //获取授权
-            UsernamePasswordAuthenticationToken authentication = getAuthentication(webToken, uuid);
+            UsernamePasswordAuthenticationToken authentication = getAuthentication(webToken, uuid, resp);
 
             if (!Objects.isNull(null)) {
 
@@ -63,9 +65,10 @@ public class JwtAuthenticationManager {
      * 根据一个 webToken 生成授权
      *
      * @param webToken
+     * @param resp
      * @return 授权
      */
-    private UsernamePasswordAuthenticationToken getAuthentication(String webToken, String uuid) {
+    private UsernamePasswordAuthenticationToken getAuthentication(String webToken, String uuid, HttpServletResponse resp) {
 
         if (Strings.isNotBlank(webToken)) {
 
@@ -90,7 +93,11 @@ public class JwtAuthenticationManager {
                 //用户信息无误，判断token是否需要reflush处理
                 if (claims.getExpiration().before(new Date())) {
                     //失效时间早于当前时间，则说明token已经过期，需要说更新token失效时间
-                    throw new BusinessException("需要更新token");
+                    //后端直接更新token就好，token更新，原redis中token也需要删除
+                    final String token = JwtUtils.generateToken(userDetails);
+                    resp.setHeader(JwtConstant.HEADER_STRING, token);
+                    stringRedisTemplate.delete(CacheConstsEnum.ACCESS_TOKEN.appendKeyByUnderline(uuid));
+                    stringRedisTemplate.opsForValue().set(CacheConstsEnum.ACCESS_TOKEN.appendKeyByUnderline(uuid), token);
                 }
 
                 //用户信息无误，且token未失效

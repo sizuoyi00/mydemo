@@ -19,18 +19,20 @@ public class JwtAuthController {
 
     /**
      * 登录
+     *
      * @param username
      * @param password
      * @return
      */
     @RequestMapping(value = "/auth/login", method = RequestMethod.POST)
-    public String createToken( String username,String password, HttpServletRequest request){
+    public String createToken(String username, String password, HttpServletRequest request) {
         // 登录成功会返回JWT Token给用户
-        return authService.login( username, password, request.getHeader(JwtConstant.uuid));
+        return authService.login(username, password, request.getHeader(JwtConstant.uuid));
     }
 
     /**
      * 注册
+     *
      * @param addedJwtUser
      * @return
      */

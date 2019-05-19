@@ -1,7 +1,7 @@
 package cn.sy.demo.api.controller;
 
 import cn.sy.demo.mapper.JwtUserMapper;
-import cn.sy.demo.model.JwtUser;
+import cn.sy.demo.model.JwtUserDo;
 import cn.sy.demo.model.User;
 import cn.sy.demo.model.UserInfo;
 import cn.sy.demo.service.UserInfoService;
@@ -28,7 +28,7 @@ public class MybatisPlusTest extends BaseControllerTest{
      */
     @Test
     public void testCascade(){
-        final JwtUser user = jwtUserMapper.selectUserWithRoleByUserName("sss");
+        final JwtUserDo user = jwtUserMapper.selectUserWithRoleByUserName("sss");
         System.out.println(user);
     }
 
@@ -37,7 +37,7 @@ public class MybatisPlusTest extends BaseControllerTest{
      */
     @Test
     public void testAutoCascade(){
-        final JwtUser user = jwtUserMapper.selectUserAutoWithRoleByUserName("sss");
+        final JwtUserDo user = jwtUserMapper.selectUserAutoWithRoleByUserName("sss");
         System.out.println(user);
     }
 

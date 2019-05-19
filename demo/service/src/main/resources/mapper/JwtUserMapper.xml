@@ -3,7 +3,7 @@
 <mapper namespace="cn.sy.demo.mapper.JwtUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="jwtUserRole" type="cn.sy.demo.model.JwtUser">
+    <resultMap id="jwtUserRole" type="cn.sy.demo.model.JwtUserDo">
         <id column="id" property="id"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
@@ -18,7 +18,7 @@
         <result column="description" property="description"/>
     </resultMap>
 
-    <resultMap id="autoCascadeResult" type="cn.sy.demo.model.JwtUser">
+    <resultMap id="autoCascadeResult" type="cn.sy.demo.model.JwtUserDo">
         <!-- association定义关联对象的封装规则
             select:表明当前属性是调用select指定的方法查出的结果，使用mybatis-plus封装的或自己定义
             column:指定将哪一列的值传给这个方法

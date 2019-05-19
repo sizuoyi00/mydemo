@@ -1,6 +1,6 @@
 //package cn.sy.demo.api.controller;
 //
-//import cn.sy.demo.model.User;
+//import cn.sy.demo.model.JwtUserDo;
 //import cn.sy.demo.service.ActiveMqProducerService;
 //import cn.sy.demo.service.UserService;
 //import com.alibaba.fastjson.JSON;
@@ -26,7 +26,7 @@
 //
 //    @Test
 //    public void testActiveMqSend1() {
-//        User u= userService.get(33323L);
+//        JwtUserDo u= userService.get(33323L);
 //        final String jsonString = JSON.toJSONString(u);
 //        this.messageProducer.sendMessage(jsonString);
 //    }

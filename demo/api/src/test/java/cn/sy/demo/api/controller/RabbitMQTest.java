@@ -80,7 +80,7 @@ public class RabbitMQTest extends BaseControllerTest{
 
 //    @Test
 //    public void testSendUser2() {
-//        User u;
+//        JwtUserDo u;
 //        for (int x = 0; x < 100; x++) {
 //            u= userService.get(33323L);
 //            this.messageProducer.sendMessage(JSON.toJSONString(u));

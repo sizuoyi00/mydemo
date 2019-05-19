@@ -1,6 +1,6 @@
 package cn.sy.demo.service;
 
-import cn.sy.demo.model.JwtUser;
+import cn.sy.demo.model.JwtUserDo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author guests
  * @since 2019-05-16
  */
-public interface JwtUserService extends IService<JwtUser> {
+public interface JwtUserService extends IService<JwtUserDo> {
 
 }

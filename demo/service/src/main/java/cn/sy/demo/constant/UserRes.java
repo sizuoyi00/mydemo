@@ -24,5 +24,4 @@ public class UserRes {
     private Date currDate;
 
 
-
 }

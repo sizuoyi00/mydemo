@@ -30,7 +30,7 @@
         </javaClientGenerator>
 
         <table schema="sy_demo"
-            tableName="user"
+            tableName="jwtUserDo"
             domainObjectName="User">
         <ignoreColumn column="modify_time"/>
         <ignoreColumn column="create_time"/>

@@ -1,6 +1,6 @@
 package cn.sy.demo.mapper;
 
-import cn.sy.demo.model.JwtUser;
+import cn.sy.demo.model.JwtUserDo;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -13,10 +13,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2019-05-16
  */
 @DS("local")
-public interface JwtUserMapper extends BaseMapper<JwtUser> {
+public interface JwtUserMapper extends BaseMapper<JwtUserDo> {
 
-    JwtUser selectUserWithRoleByUserName(String username);
+    JwtUserDo selectUserWithRoleByUserName(String username);
 
-    JwtUser selectUserAutoWithRoleByUserName(String username);
+    JwtUserDo selectUserAutoWithRoleByUserName(String username);
 
 }

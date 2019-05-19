@@ -20,7 +20,7 @@
     </sql>
 
     <select id="getUser" resultType="cn.sy.demo.model.User">
-        select * from user where id_card = #{idCard}
+        select * from jwtUserDo where id_card = #{idCard}
     </select>
 
 </mapper>

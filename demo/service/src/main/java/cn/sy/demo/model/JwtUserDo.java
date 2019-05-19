@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName(value = "jwt_user", resultMap = "jwtUserRole")
-public class JwtUser implements Serializable {
+public class JwtUserDo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

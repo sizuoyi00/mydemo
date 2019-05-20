@@ -14,7 +14,7 @@ public class TestSecurityController {
      */
     @PreAuthorize("hasAuthority('ROLE_NORMAL')")
     @RequestMapping( value="/normal/test", method = RequestMethod.GET )
-    public String test1() {
+    public Object test1() {
         return "ROLE_NORMAL /normal/test接口调用成功！";
     }
 
@@ -24,7 +24,7 @@ public class TestSecurityController {
      */
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping( value = "/admin/test", method = RequestMethod.GET )
-    public String test2() {
+    public Object test2() {
         return "ROLE_ADMIN /admin/test接口调用成功！";
     }
 }

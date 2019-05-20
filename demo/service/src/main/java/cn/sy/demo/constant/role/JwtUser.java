@@ -34,16 +34,6 @@ public class JwtUser implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return username;
-    }
-
-    @Override
-    public String getUsername() {
-        return password;
-    }
-
-    @Override
     public boolean isAccountNonExpired() {
         return true;
     }

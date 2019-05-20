@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j
@@ -52,7 +53,7 @@ public class JwtAuthenticationManager {
             //获取授权
             UsernamePasswordAuthenticationToken authentication = getAuthentication(webToken, uuid, resp);
 
-            if (!Objects.isNull(null)) {
+            if (!Objects.isNull(authentication)) {
 
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -97,7 +98,8 @@ public class JwtAuthenticationManager {
                     final String token = JwtUtils.generateToken(userDetails);
                     resp.setHeader(JwtConstant.HEADER_STRING, token);
                     stringRedisTemplate.delete(CacheConstsEnum.ACCESS_TOKEN.appendKeyByUnderline(uuid));
-                    stringRedisTemplate.opsForValue().set(CacheConstsEnum.ACCESS_TOKEN.appendKeyByUnderline(uuid), token);
+                    stringRedisTemplate.opsForValue().set(CacheConstsEnum.ACCESS_TOKEN.appendKeyByUnderline(uuid),
+                            token, JwtConstant.ACCESSTOKEN_TIMEOUT, TimeUnit.SECONDS);
                 }
 
                 //用户信息无误，且token未失效

@@ -1,22 +1,17 @@
 package cn.sy.demo.service.impl;
 
+import cn.sy.demo.constant.context.ThreadContextHolder;
 import cn.sy.demo.constant.enums.CacheConstsEnum;
 import cn.sy.demo.constant.role.JwtConstant;
 import cn.sy.demo.constant.role.JwtUser;
 import cn.sy.demo.mapper.JwtUserMapper;
-import cn.sy.demo.mapper.UserMapper;
 import cn.sy.demo.model.JwtUserDo;
 import cn.sy.demo.service.AuthService;
 import cn.sy.demo.utils.JwtUtils;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,9 +25,6 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class AuthServiceImpl implements AuthService {
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Resource(name = "jwtUserService")
     private UserDetailsService jwtUserService;
@@ -49,13 +41,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String login(String username, String password, String uuid) {
 
-        //这几个不知道是干嘛的
-        UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(username, password);
-        final Authentication authentication = authenticationManager.authenticate(upToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
         final UserDetails userDetails = jwtUserService.loadUserByUsername(username);
         final String token = JwtUtils.generateToken(userDetails);
+
+        ThreadContextHolder.getHttpResponse().setHeader(JwtConstant.HEADER_STRING, token);
         stringRedisTemplate.opsForValue().set(CacheConstsEnum.ACCESS_TOKEN.appendKeyByUnderline(uuid),
                 token,JwtConstant.ACCESSTOKEN_TIMEOUT, TimeUnit.SECONDS);
 

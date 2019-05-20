@@ -30,7 +30,7 @@ public class IpFilterInterceptor extends HandlerInterceptorAdapter {
 		String ip = IpUtils.getIp(request);
 		log.debug(" ip is :" + ip);
 		
-		if (!ipList.contains(ip) && !ip.startsWith("10.")) {
+		if (!ipList.contains(ip)) {
 			throw new BusinessException(BusinessErrorCode.IP_INVALID);
 		}
 

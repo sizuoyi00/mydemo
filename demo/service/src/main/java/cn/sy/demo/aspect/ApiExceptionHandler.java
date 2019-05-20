@@ -39,6 +39,21 @@ public class ApiExceptionHandler {
 		return ApiResponse.from(ApiResponseCode.API_REQUEST_METHOD_NOT_SUPPORTED);
 	}
 
+	@ExceptionHandler({BusinessException.class})
+	@ResponseBody
+	public Object handleException(BusinessException e) {
+		log.info("business exception {}", e.toString());
+		return ApiResponse.from(e);
+	}
+
+	@ExceptionHandler(Throwable.class)
+	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseBody
+	public Object handleException(Throwable e) {
+		log.error("API request exception", e);
+		return ApiResponse.from(ApiResponseCode.SYS_ERROR);
+	}
+
 	@ExceptionHandler({MissingServletRequestParameterException.class, HttpMessageNotReadableException.class})
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	@ResponseBody
@@ -59,18 +74,4 @@ public class ApiExceptionHandler {
 		return ApiResponse.from(e);
 	}
 
-	@ExceptionHandler(BusinessException.class)
-	@ResponseBody
-	public Object handleException(BusinessException e) {
-		log.info("business exception {}", e.toString());
-		return ApiResponse.from(e);
-	}
-
-	@ExceptionHandler(Throwable.class)
-	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-	@ResponseBody
-	public Object handleException(Throwable e) {
-		log.error("API request exception", e);
-		return ApiResponse.from(ApiResponseCode.SYS_ERROR);
-	}
 }

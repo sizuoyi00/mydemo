@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum CacheConstsEnum {
     USER ("USER", "用户名"),
+    RATE_LIMIT("RATE_LIMIT", "接口限频"),
     DEMO_USER ("DEMO_USER", "特别用户名"),
     ACCESS_TOKEN("ACCESS_TOKEN","访问令牌");
 

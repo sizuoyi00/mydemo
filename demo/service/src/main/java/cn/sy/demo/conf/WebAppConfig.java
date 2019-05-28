@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Component
-//@ComponentScan({ "cn.sy.demp.api.aspect", "cn.jf180.common.api.interceptor" })
 public class WebAppConfig implements WebMvcConfigurer {
 
 	@Value("${spring.profiles.active}")

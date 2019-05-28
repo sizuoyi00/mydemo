@@ -1,4 +1,4 @@
-package cn.sy.demo;
+package cn.sy.demo.conf;
 
 import cn.sy.demo.filter.JwtTokenFilter;
 import org.springframework.context.annotation.Bean;

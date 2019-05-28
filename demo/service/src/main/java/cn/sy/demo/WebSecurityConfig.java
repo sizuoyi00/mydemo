@@ -1,4 +1,4 @@
-package cn.sy.demo.conf;
+package cn.sy.demo;
 
 import cn.sy.demo.filter.JwtTokenFilter;
 import org.springframework.context.annotation.Bean;
@@ -43,11 +43,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .cors().and().csrf().disable()
+            .cors().and().csrf().disable();
+                // 定义验权失败返回格式
+//                .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
+//                .authenticationEntryPoint(authenticationEntryPoint);
                 // 禁用session
 //            .sessionManagement()
 //                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 //                .and()
+        //过滤掉swagger的路径
+        http
+            .authorizeRequests()
+                .antMatchers("/v2/**", "/configuration/ui", "/swagger-resources/**",
+                        "/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll();
+        http
             .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated();

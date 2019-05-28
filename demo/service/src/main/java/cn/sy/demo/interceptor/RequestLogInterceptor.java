@@ -19,7 +19,7 @@ public class RequestLogInterceptor extends HandlerInterceptorAdapter {
     private static final List<String> EXCLUDE_SIGN_PARAMETER_NAMES = Arrays.asList(new String[] { "faceIdCardImg", "backIdCardImg", "faceRecognitionImg" });
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
         try {
             String reqId = UUID.randomUUID().toString().replaceAll("-", "");
             String ip = IpUtils.getIp(request);

@@ -1,8 +1,9 @@
-package cn.sy.demo.api.controller;
+package cn.sy.demo.web;
 
+import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,11 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @RestController
+@RequestMapping("session")
+@Api(description = "redis-session")
 @Slf4j
 public class RedisSessionTestController {
 
+    @ApiOperation("createSession")
     @RequestMapping("/createSession")
-    public Object createSession(HttpServletRequest request, HttpSession session, String name) throws JSONException {
+    public Object createSession(HttpServletRequest request, HttpSession session, String name) {
         session.setAttribute("name", name);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("port", request.getLocalPort());
@@ -24,8 +28,9 @@ public class RedisSessionTestController {
         return jsonObject.toString();
     }
 
+    @ApiOperation("getSession")
     @RequestMapping("/getSession")
-    public Object getSession(HttpServletRequest request, HttpSession session) throws JSONException {
+    public Object getSession(HttpServletRequest request, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("port", request.getLocalPort());
         jsonObject.put("sessionid", session.getId());

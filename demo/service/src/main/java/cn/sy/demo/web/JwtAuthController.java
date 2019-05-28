@@ -1,4 +1,4 @@
-package cn.sy.demo.api.controller;
+package cn.sy.demo.web;
 
 import cn.sy.demo.constant.role.JwtConstant;
 import cn.sy.demo.constant.role.JwtUser;

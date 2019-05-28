@@ -1,4 +1,4 @@
-package cn.sy.demo.api.controller;
+package cn.sy.demo.web;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;

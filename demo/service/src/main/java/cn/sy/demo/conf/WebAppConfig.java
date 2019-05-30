@@ -25,14 +25,11 @@ public class WebAppConfig implements WebMvcConfigurer {
 	@Autowired
 	private ClientVerifySigInterceptor clientVerifySigInterceptor;
 
-	@Autowired
-	private RateLimitInterceptor rateLimitInterceptor;
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(requestLogInterceptor).addPathPatterns("/**");
 		registry.addInterceptor(requestContextInterceptor).addPathPatterns("/**");
-		registry.addInterceptor(rateLimitInterceptor).addPathPatterns("/quick");
 		registry.addInterceptor(ipFilterInterceptor).addPathPatterns("/**")
 				.excludePathPatterns("/callback/**").excludePathPatterns("/notify/wxpay/**");
 		registry.addInterceptor(clientVerifySigInterceptor).addPathPatterns("/")

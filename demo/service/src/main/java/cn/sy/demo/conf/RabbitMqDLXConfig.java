@@ -43,7 +43,7 @@ public class RabbitMqDLXConfig {
      * return message;
      * });
      * 第二种就是每次发送消息动态设置延迟时间,这样我们可以灵活控制
-     *
+     * <p>
      * 重要思想：
      * 只有当原消费队列ORDER_DELAY_QUEUE 不被消费者监听，使得消息不被消费的情况，
      * 也就是要先满足ttl条件
@@ -73,9 +73,9 @@ public class RabbitMqDLXConfig {
      * fanout：可以理解为广播，会把交换器上的所有消息投放到绑定到这个交换机上的队列上，无论这个队列是通过哪个路由键绑定到这个交换器上的
      * topic：主题，使来自不同源头的消息到达同一个队列
      * headers: 匹配消息头，其余与direct一样，实用性不大
-     *
-     *  #：相当于一个或者多个单词，例如一个匹配模式是topic.#，那么，以topic开头的路由键都是可以的
-     *  *：相当于一个单词，例如一个匹配模式是topic.*，那么，以topic开头的路由键,后面接一个单词的都可以
+     * <p>
+     * #：相当于一个或者多个单词，例如一个匹配模式是topic.#，那么，以topic开头的路由键都是可以的
+     * *：相当于一个单词，例如一个匹配模式是topic.*，那么，以topic开头的路由键,后面接一个单词的都可以
      */
     @Bean
     public DirectExchange orderDelayExchange() {
@@ -93,12 +93,17 @@ public class RabbitMqDLXConfig {
     public Queue orderQueue() {
         return new Queue(ORDER_QUEUE_NAME, true);
     }
+
     /**
      * 将路由键和某模式进行匹配。此时队列需要绑定要一个模式上。
      * 符号“#”匹配一个或多个词，符号“*”匹配不多不少一个词。因此“audit.#”能够匹配到“audit.irs.corporate”，但是“audit.*” 只会匹配到“audit.irs”。
      **/
     @Bean
     public DirectExchange orderDirectExchange() {
+        //durable:表示消息是否可持久化
+        //autoDelete:表示若没有队列和此交换机绑定 就直接删除该交换机
+//        return new DirectExchange(ORDER_EXCHANGE_NAME, true, false);
+//        return (DirectExchange) ExchangeBuilder.directExchange(ORDER_EXCHANGE_NAME).durable(true).build();
         return new DirectExchange(ORDER_EXCHANGE_NAME);
     }
 

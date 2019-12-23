@@ -8,12 +8,14 @@ import cn.sy.demo.service.UserService;
 import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
-public class RabbitMQTest extends BaseControllerTest{
+public class RabbitMQTest extends BaseControllerTest {
 
     @Resource(name = "RabbitMqProducerServiceImpl1")
     private RabbitMqProducerService messageProducer;
@@ -28,16 +30,16 @@ public class RabbitMQTest extends BaseControllerTest{
      * 插件形式延迟队列测试
      */
     @Test
-    public void testPlugin(){
+    public void testPlugin() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         amqpTemplate.convertAndSend(RabbitMqPluginConfig.DELAY_EXCHANGE_NAME, RabbitMqPluginConfig.DELAY_ROUTING_KEY,
                 "plugintest11111" + sdf.format(new Date()), message -> {
                     message.getMessageProperties().setDelay(5 * 1000);
 //            message.getMessageProperties().setHeader("x-delay", 5 * 1000);
-            //插件不可以使用下边这种方式，会被立即消费
+                    //插件不可以使用下边这种方式，会被立即消费
 //            message.getMessageProperties().setExpiration(3 * 1000 + "");
-            return message;
-        });
+                    return message;
+                });
     }
 
     /**
@@ -65,6 +67,13 @@ public class RabbitMQTest extends BaseControllerTest{
     }
 
     @Test
+    public void sendPubConfirmsdMessage2() {
+        CorrelationData correlationData = new CorrelationData();
+        correlationData.setId(UUID.randomUUID().toString());
+        this.messageProducer.sendMessageWithCorrelationData("sendPubConfirmsdMessage", correlationData);
+    }
+
+    @Test
     public void testSend() {
         this.messageProducer.sendMessage("study sss- sss");
     }
@@ -73,7 +82,7 @@ public class RabbitMQTest extends BaseControllerTest{
     public void testSendUser() {
         User u;
         for (int x = 0; x < 10; x++) {
-            u= userService.get(33323L);
+            u = userService.get(33323L);
             this.messageProducer.sendMessage(JSON.toJSONString(u));
         }
     }

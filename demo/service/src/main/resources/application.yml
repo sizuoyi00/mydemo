@@ -2,6 +2,7 @@ spring:
   datasource:
     druid:
       stat-view-servlet:
+        #可视化界面/druid/index.html
         loginUsername: admin
         loginPassword: 123456
     dynamic:

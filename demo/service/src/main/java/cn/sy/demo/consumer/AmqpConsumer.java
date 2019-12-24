@@ -56,10 +56,10 @@ public class AmqpConsumer {
      * channel.basicReject(deliveryTag, false);
      * @param msg
      */
-    @RabbitListener(bindings = @QueueBinding(
-            key = {MQConstant.KEY_TEST},
-            value = @Queue(value = MQConstant.QUEUE_TEST),
-            exchange = @Exchange(value = MQConstant.EXCHANGE_TEST)))
+//    @RabbitListener(bindings = @QueueBinding(
+//            key = {MQConstant.KEY_TEST},
+//            value = @Queue(value = MQConstant.QUEUE_TEST),
+//            exchange = @Exchange(value = MQConstant.EXCHANGE_TEST)))
 //    public void receiveMessage1(String msg, @Headers Map<String, Object> headers, Message message, Channel channel) {
 //
 //        try {

@@ -26,6 +26,8 @@ public class AmqpConfirmListener implements RabbitTemplate.ConfirmCallback, Rabb
 
     public AmqpConfirmListener(RabbitTemplate rabbitTemplate) {
         rabbitTemplate.setConfirmCallback(this);
+        // TODO 测试returncallback
+        rabbitTemplate.setReturnCallback(this);
     }
 
     /**
@@ -73,6 +75,14 @@ public class AmqpConfirmListener implements RabbitTemplate.ConfirmCallback, Rabb
         // 或如果是负载均衡的模式下，能够把这个消息重新分配给其他的同等的接受者来处理。
         // 这同样也是RabbitMQ对消息持久化的一种功能。
         message.getMessageProperties().getDeliveryMode();
+
+        log.warn("correlationId:{}",message.getMessageProperties().getCorrelationId());
+        log.warn("replyText:{}",replyText);
+        log.warn("消息内容:{}",new String(message.getBody()));
+        log.warn("replyCode:{}",replyCode);
+        log.warn("交换机:{}",exchange);
+        log.warn("routingKey:{}",routingKey);
+        log.info("需要更新数据库日志表得消息记录为不可达");
 
     }
 }

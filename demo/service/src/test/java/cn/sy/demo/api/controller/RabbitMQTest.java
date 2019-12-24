@@ -8,7 +8,6 @@ import cn.sy.demo.service.UserService;
 import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.rabbit.connection.CorrelationData;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -25,6 +24,8 @@ public class RabbitMQTest extends BaseControllerTest {
 
     @Resource
     private AmqpTemplate amqpTemplate;
+
+    public static  final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      * 插件形式延迟队列测试
@@ -48,10 +49,9 @@ public class RabbitMQTest extends BaseControllerTest {
     @Test
     public void testdlx() {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //延迟消费
         amqpTemplate.convertAndSend(RabbitMqDLXConfig.ORDER_DELAY_EXCHANGE, RabbitMqDLXConfig.ORDER_DELAY_ROUTING_KEY,
-                "DLXtest11111" + sdf.format(new Date()), message -> {
+                "DLXtest11111" + DATE_FORMAT.format(new Date()), message -> {
                     message.getMessageProperties().setExpiration(3 * 1000 + "");
                     //ttl+dxl不可以使用以下两种方式，经测试会在消息队列中堆积，不会被消费，后边的也会堆积，不知道为什么，暂不研究
 //                    message.getMessageProperties().setDelay(3000);
@@ -63,19 +63,17 @@ public class RabbitMQTest extends BaseControllerTest {
 
     @Test
     public void sendPubConfirmsdMessage() {
-        this.messageProducer.sendPubConfirmsdMessage("sendPubConfirmsdMessage");
-    }
-
-    @Test
-    public void sendPubConfirmsdMessage2() {
-        CorrelationData correlationData = new CorrelationData();
-        correlationData.setId(UUID.randomUUID().toString());
-        this.messageProducer.sendMessageWithCorrelationData("sendPubConfirmsdMessage", correlationData);
+        this.messageProducer.sendPubConfirmsdMessage("sendPubConfirmsdMessage", UUID.randomUUID().toString());
     }
 
     @Test
     public void testSend() {
         this.messageProducer.sendMessage("study sss- sss");
+    }
+
+    @Test
+    public void testSend2() {
+        this.messageProducer.sendMessageWithProperties("study sss- sss" + DATE_FORMAT.format(new Date()));
     }
 
     @Test

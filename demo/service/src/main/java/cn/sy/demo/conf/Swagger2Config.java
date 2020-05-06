@@ -34,6 +34,19 @@ public class Swagger2Config {
 	}
 
 	@Bean
+	public Docket jwtAuthApi() {
+
+		return new Docket(DocumentationType.SWAGGER_2)
+				.groupName("jwtAuth")
+				.apiInfo(apiInfo())
+				.select()
+				.apis(RequestHandlerSelectors.basePackage("cn.sy.demo"))
+				.paths(PathSelectors.ant("/auth/**"))
+				.build()
+				.globalOperationParameters(this.buildParameter());
+	}
+
+	@Bean
 	public Docket sessionApi() {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.groupName("session")

@@ -5,6 +5,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,12 +13,12 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("session")
-@Api(description = "redis-session")
+@Api(value = "redis-session")
 @Slf4j
 public class RedisSessionTestController {
 
     @ApiOperation("createSession")
-    @RequestMapping("/createSession")
+    @RequestMapping(value = "/createSession", method = RequestMethod.POST)
     public Object createSession(HttpServletRequest request, HttpSession session, String name) {
         session.setAttribute("name", name);
         JSONObject jsonObject = new JSONObject();
@@ -29,7 +30,7 @@ public class RedisSessionTestController {
     }
 
     @ApiOperation("getSession")
-    @RequestMapping("/getSession")
+    @RequestMapping(value = "/getSession", method = RequestMethod.GET)
     public Object getSession(HttpServletRequest request, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("port", request.getLocalPort());

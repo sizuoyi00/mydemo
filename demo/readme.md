@@ -10,3 +10,4 @@ rabbitmq-url
 guest guest
 
 权限
+/auth/login 登录

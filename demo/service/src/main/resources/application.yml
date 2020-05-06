@@ -12,7 +12,7 @@ spring:
         master:
           username: tarot
           password: gwOLtfC0t&WN0oZU
-          driver-class-name: com.mysql.jdbc.Driver
+#          driver-class-name: com.mysql.jdbc.Driver
           url: jdbc:mysql://47.254.81.173:3306/tarot?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT
           druid: # 以下参数针对每个库可以重新设置druid参数
             initial-size:
@@ -21,7 +21,7 @@ spring:
         local:
           username: root
           password: Jifen004
-          driver-class-name: com.mysql.jdbc.Driver
+#          driver-class-name: com.mysql.jdbc.Driver
           url: jdbc:mysql://127.0.0.1:3306/sy_demo?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT
           druid: # 以下参数针对每个库可以重新设置druid参数
             initial-size:

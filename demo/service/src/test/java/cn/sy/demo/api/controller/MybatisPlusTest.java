@@ -12,7 +12,7 @@ import org.junit.Test;
 import javax.annotation.Resource;
 import java.util.List;
 
-public class MybatisPlusTest extends BaseControllerTest{
+public class MybatisPlusTest extends BaseTest {
 
     @Resource
     private UserService userService;

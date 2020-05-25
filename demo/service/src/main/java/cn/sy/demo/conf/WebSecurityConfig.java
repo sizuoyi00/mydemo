@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .cors().and().csrf().disable();
-                // 定义验权失败返回格式
+                // 定义验权失败返回格式 对应配置参考 AccessDeniedFormatConfig
 //                .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
 //                .authenticationEntryPoint(authenticationEntryPoint);
                 // 禁用session

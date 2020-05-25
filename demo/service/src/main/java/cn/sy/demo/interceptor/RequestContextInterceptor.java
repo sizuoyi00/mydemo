@@ -1,6 +1,6 @@
 package cn.sy.demo.interceptor;
 
-import cn.sy.demo.constant.context.ThreadContextHolder;
+import cn.sy.demo.conf.ThreadContextHolder;
 //import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -31,6 +31,7 @@ public class RequestContextInterceptor extends HandlerInterceptorAdapter {
 		//request 和response存到 上下文中
 		ThreadContextHolder.setHttpResponse(response);
 		ThreadContextHolder.setHttpRequest(request);
+		ThreadContextHolder.setSession(request.getSession());
 
 		return super.preHandle(request, response, handler);
 	}

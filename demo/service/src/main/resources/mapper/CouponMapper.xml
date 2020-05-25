@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sy.demo.mapper.CouponMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.sy.demo.model.Coupon">
+        <id column="id" property="id" />
+        <result column="coupons_amount" property="couponsAmount" />
+        <result column="min_goods_amount" property="minGoodsAmount" />
+        <result column="create_num" property="createNum" />
+        <result column="use_num" property="useNum" />
+        <result column="received_num" property="receivedNum" />
+        <result column="limit_num" property="limitNum" />
+        <result column="use_start_date" property="useStartDate" />
+        <result column="use_end_date" property="useEndDate" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, coupons_amount, min_goods_amount, create_num, use_num, received_num, limit_num, use_start_date, use_end_date, remark
+    </sql>
+
+</mapper>

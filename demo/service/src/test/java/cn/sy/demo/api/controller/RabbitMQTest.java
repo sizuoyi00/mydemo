@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-public class RabbitMQTest extends BaseControllerTest {
+public class RabbitMQTest extends BaseTest {
 
     @Resource(name = "RabbitMqProducerServiceImpl1")
     private RabbitMqProducerService messageProducer;

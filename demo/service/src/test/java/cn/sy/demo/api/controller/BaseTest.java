@@ -1,9 +1,6 @@
 package cn.sy.demo.api.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,7 +10,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
 
@@ -22,7 +18,7 @@ import java.io.UnsupportedEncodingException;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
-public abstract class BaseControllerTest {
+public abstract class BaseTest {
 	@Autowired
 	protected MockMvc mvc;
 	

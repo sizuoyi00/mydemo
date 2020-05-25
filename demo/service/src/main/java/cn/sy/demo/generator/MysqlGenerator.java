@@ -26,7 +26,7 @@ public class MysqlGenerator {
     /**
      * 表名
      */
-    private static String tableName = "jwt_user";
+    private static String tableName = "member_coupon";
 
 
     /**

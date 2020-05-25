@@ -1,6 +1,6 @@
 package cn.sy.demo.service.impl;
 
-import cn.sy.demo.constant.context.ThreadContextHolder;
+import cn.sy.demo.conf.ThreadContextHolder;
 import cn.sy.demo.constant.enums.CacheConstsEnum;
 import cn.sy.demo.constant.role.JwtConstant;
 import cn.sy.demo.constant.role.JwtUser;

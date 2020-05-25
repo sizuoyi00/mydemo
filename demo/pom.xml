@@ -119,11 +119,18 @@
 				<version>0.9.0</version>
 			</dependency>
 
+<!--			<dependency>-->
+<!--				<groupId>org.apache.shardingsphere</groupId>-->
+<!--				<artifactId>sharding-jdbc-spring-boot-starter</artifactId>-->
+<!--				<version>4.1.0</version>-->
+<!--			</dependency>-->
+
 			<dependency>
-				<groupId>org.apache.shardingsphere</groupId>
-				<artifactId>sharding-jdbc-spring-boot-starter</artifactId>
-				<version>4.1.0</version>
+				<groupId>org.redisson</groupId>
+				<artifactId>redisson</artifactId>
+				<version>3.8.2</version>
 			</dependency>
+
 
 		</dependencies>
 	</dependencyManagement>

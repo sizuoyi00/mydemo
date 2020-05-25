@@ -24,12 +24,11 @@ public class TestController {
         PriorityBlockingQueue blockingQueue = new PriorityBlockingQueue();
         ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(5, 6, 0, TimeUnit.SECONDS,
                 blockingQueue);
-        new ThreadPoolExecutor
 
 
         List<Integer> list = Arrays.asList(1, 2, 5);
         AtomicInteger count = new AtomicInteger();
-        list.forEach(l -> count.incrementAndGet(l));
+        list.forEach(l -> count.incrementAndGet());
         System.out.println(count);
 
         ReentrantLock reentrantLock = new ReentrantLock();

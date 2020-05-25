@@ -3,11 +3,14 @@ package cn.sy.demo.consumer;
 import cn.sy.demo.conf.RabbitMqDLXConfig;
 import cn.sy.demo.conf.RabbitMqPluginConfig;
 import cn.sy.demo.constant.MQConstant;
+import cn.sy.demo.service.SeckillService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -95,7 +98,7 @@ public class AmqpConsumer {
      * 多消费端也会造成资源的极大浪费，这个在开发过程中一定要避免的）。可以通过setDefaultRequeueRejected（默认是true）去设置，
      * <p>
      * 根据上述异常 对所处理的业务进行 按需抛出
-     *
+     * <p>
      * 消息拉取数量限制取决于prefetch参数，TODO 未确认
      *
      * @param msg
@@ -117,6 +120,20 @@ public class AmqpConsumer {
 
         //当抛出ImmediateAcknowledgeAmqpException异常，则消费者会被确认--进入重试，达到重试次数后结束
         //throw new ImmediateAcknowledgeAmqpException("消息消费失败");
+    }
+
+    @Autowired
+    private SeckillService seckillService;
+
+    @RabbitListener(bindings = @QueueBinding(
+            key = {MQConstant.KEY_SECKILL_COUPON},
+            value = @Queue(value = MQConstant.QUEUE_SECKILL_COUPON),
+            exchange = @Exchange(value = MQConstant.EXCHANGE_TEST)))
+    public void receiveSeckillCoupon(String msg) {
+        log.info("~~~消费消息receiveSeckillCoupon~~~[{}]", msg);
+        String[] split = StringUtils.split(msg, "_");
+
+        seckillService.receiveSeckillCoupon(split[0], split[1]);
     }
 
 }

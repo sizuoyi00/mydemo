@@ -25,7 +25,7 @@ public class RabbitMQTest extends BaseTest {
     @Resource
     private AmqpTemplate amqpTemplate;
 
-    public static  final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      * 插件形式延迟队列测试
@@ -64,6 +64,18 @@ public class RabbitMQTest extends BaseTest {
     @Test
     public void sendPubConfirmsdMessage() {
         this.messageProducer.sendPubConfirmsdMessage("sendPubConfirmsdMessage", UUID.randomUUID().toString());
+    }
+
+    @Test
+    public void sendPubConfirmErrorMessage() {
+        this.messageProducer.sendPubConfirmErrorMessage("sendPubConfirmErrorMessage", UUID.randomUUID().toString());
+    }
+
+    @Test
+    public void sendPubReturnErrorMessage() {
+        for (int i = 0; i < 5; i++) {
+            this.messageProducer.sendPubReturnErrorMessage("sendPubReturnErrorMessage" + i, UUID.randomUUID().toString());
+        }
     }
 
     @Test

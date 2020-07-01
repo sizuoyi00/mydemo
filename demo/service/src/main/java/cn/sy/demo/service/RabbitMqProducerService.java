@@ -7,4 +7,8 @@ public interface RabbitMqProducerService {
     void sendMessageWithProperties(String msg);
 
     void sendPubConfirmsdMessage(String msg, String id);
+
+    void sendPubConfirmErrorMessage(String msg, String id);
+
+    void sendPubReturnErrorMessage(String msg, String id);
 }

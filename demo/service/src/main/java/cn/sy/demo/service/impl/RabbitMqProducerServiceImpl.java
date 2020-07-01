@@ -56,4 +56,24 @@ public class RabbitMqProducerServiceImpl implements RabbitMqProducerService {
                 msg, correlationData);
     }
 
+    @Override
+    public void sendPubConfirmErrorMessage(String msg, String id) {
+        log.info("~~~生产消息~~~[{}]", msg);
+        System.out.println("~~~生产消息~~~ " + msg);
+        CorrelationData correlationData = new CorrelationData();
+        correlationData.setId(id);
+        amqpTemplate.convertAndSend("MOCK_CONFIRM_EXCHANGE", "MOCK_RETURN",
+                msg, correlationData);
+    }
+
+    @Override
+    public void sendPubReturnErrorMessage(String msg, String id) {
+        log.info("~~~生产消息~~~[{}]", msg);
+        System.out.println("~~~生产消息~~~ " + msg);
+        CorrelationData correlationData = new CorrelationData();
+        correlationData.setId(id);
+        amqpTemplate.convertAndSend(MQConstant.EXCHANGE_TEST, "MOCK_RETURN_ERROR_KEY",
+                msg, correlationData);
+    }
+
 }

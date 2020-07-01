@@ -26,13 +26,16 @@ public class AmqpConfirmListener implements RabbitTemplate.ConfirmCallback, Rabb
 
     public AmqpConfirmListener(RabbitTemplate rabbitTemplate) {
         rabbitTemplate.setConfirmCallback(this);
-        // TODO 测试returncallback
         rabbitTemplate.setReturnCallback(this);
     }
 
     /**
      * 这里是确认有没有发送到消息中间件上，发送到中间件 ack=true
+     * 发送不到交换机上，也会回调这里
+     * <p>
      * 这里不会关注消息是否有没有被消费，只关注有没有发送成功
+     * <p>
+     * 回调参数没有消息内容，因为没有到达服务端，没有持久化
      *
      * @param correlationData 唯一标识，有了这个唯一标识，我们就知道可以确认（失败）哪一条消息了
      * @param ack
@@ -51,9 +54,10 @@ public class AmqpConfirmListener implements RabbitTemplate.ConfirmCallback, Rabb
     }
 
     /**
-     * 发送消息不到交换机或路由不到指定队列，不可达消息
-     *
+     * 发送消息路由不到指定队列，不可达消息
+     * <p>
      * 设置生产端的mandatory属性会回调到生产者的ReturnListener，否则mq服务器会直接删除  TODO mandatory默认值不确定
+     * <p>
      * 这个可以用来确认生产者发送失败的消息，可以落库后续补偿
      *
      * @param message    the returned message.
@@ -64,10 +68,10 @@ public class AmqpConfirmListener implements RabbitTemplate.ConfirmCallback, Rabb
      */
     @Override
     public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
-        log.info("发送消息到不到交换机/路由不到指定队列，消息不可达", message, replyCode, replyText, exchange, routingKey);
+        log.info("发送消息路由不到指定队列，消息不可达", message, replyCode, replyText, exchange, routingKey);
         //消息体
         message.getBody();
-        //mq生成的唯一id
+        //mq生成的唯一id  无效，测试结果一直是0，忽略，使用业务id correlationData
         message.getMessageProperties().getDeliveryTag();
         // DeliveryMode=Persistent=2持久的。
         // 在接收者接收消息并处理的时候会出现各种各样的问题：抛出异常导致与RabbitMQ连接断开，程序挂掉，网络问题等等。
@@ -76,12 +80,15 @@ public class AmqpConfirmListener implements RabbitTemplate.ConfirmCallback, Rabb
         // 这同样也是RabbitMQ对消息持久化的一种功能。
         message.getMessageProperties().getDeliveryMode();
 
-        log.warn("correlationId:{}",message.getMessageProperties().getCorrelationId());
-        log.warn("replyText:{}",replyText);
-        log.warn("消息内容:{}",new String(message.getBody()));
-        log.warn("replyCode:{}",replyCode);
-        log.warn("交换机:{}",exchange);
-        log.warn("routingKey:{}",routingKey);
+        //=CorrelationData.id 业务唯一id
+        message.getMessageProperties().getHeaders().get("spring_returned_message_correlation");
+
+        log.warn("replyText:{}", replyText);
+        log.warn("消息内容:{}", new String(message.getBody()));
+        log.warn("replyCode:{}", replyCode);
+        log.warn("交换机:{}", exchange);
+        log.warn("routingKey:{}", routingKey);
+        log.warn("messageProperties:{}", message.getMessageProperties());
         log.info("需要更新数据库日志表得消息记录为不可达");
 
     }
